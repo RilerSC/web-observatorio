@@ -12,6 +12,7 @@ import {
   Paper,
 } from '@mui/material';
 import { Person, School, Business } from '@mui/icons-material';
+import TeamMemberCard from '@/components/Team/TeamMemberCard';
 
 const NosotrosPage: React.FC = () => {
   const valores = [
@@ -37,28 +38,28 @@ const NosotrosPage: React.FC = () => {
 
   const equipo = [
     {
-      nombre: '[LOREM IPSUM] Nombre del Miembro 1',
-      cargo: 'Director General',
-      bio: '[LOREM IPSUM] Breve biografía del miembro del equipo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      foto: '/img/1.jpg',
+      nombre: 'Jorge Arturo Campos Montero',
+      cargo: 'Director del Observatorio de la Sostenibilidad de FUNDEPOS y Catedrático por la UCR',
+      bio: 'Reconocido por su extensa trayectoria de más de cuarenta años dedicada a la sostenibilidad, la gestión ambiental y el desarrollo sostenible en el ámbito académico y profesional.',
+      foto: '/team/Jorge.jpeg',
     },
     {
-      nombre: '[LOREM IPSUM] Nombre del Miembro 2',
-      cargo: 'Coordinador de Investigación',
-      bio: '[LOREM IPSUM] Breve biografía del miembro del equipo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      foto: '/img/2.jpg',
+      nombre: 'Lourdes Gómez',
+      cargo: 'Máster en Sostenibilidad, cofundadora de Sistema B Centroamérica y Caribe',
+      bio: 'Amplia carrera en mercadeo estratégico, comunicación corporativa y sostenibilidad. Se enfoca en movilizar profesionales y equipos mediante pensamiento sistémico.',
+      foto: '/team/Lourdes.jpg',
     },
     {
-      nombre: '[LOREM IPSUM] Nombre del Miembro 3',
-      cargo: 'Especialista en Sostenibilidad',
-      bio: '[LOREM IPSUM] Breve biografía del miembro del equipo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      foto: '/img/3.jpg',
+      nombre: 'Francisco Javier Arias Vargas',
+      cargo: 'Doctor en Administración y Dirección de Empresas, experto en Cooperación Académica Internacional',
+      bio: 'Ha publicado trabajos en revistas especializadas sobre el desarrollo económico regional. Es Presidente de la Red Internacional de Investigación en Gestión del Conocimiento Empresarial.',
+      foto: '/team/Francisco.jpeg',
     },
     {
-      nombre: '[LOREM IPSUM] Nombre del Miembro 4',
-      cargo: 'Analista de Proyectos',
-      bio: '[LOREM IPSUM] Breve biografía del miembro del equipo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      foto: '/img/4.jpg',
+      nombre: 'Pablo Gámez Cersósimo',
+      cargo: 'Periodista de investigación, consultor y coach, especializado en sostenibilidad digital',
+      bio: 'Trabaja en Europa y América Latina a través de Naturallydigital.org. Su área de especialización abarca la polución, ética y bienestar digital de las sociedades.',
+      foto: '/team/Pablo.jpg',
     },
   ];
 
@@ -109,7 +110,10 @@ const NosotrosPage: React.FC = () => {
                 <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: '#009155', fontFamily: 'Montserrat, sans-serif' }}>
                   Misión
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#2d2d2d', lineHeight: 1.8, fontFamily: 'Montserrat, sans-serif' }}>
+                <Typography
+                  variant="body1"
+                  sx={{ color: '#2d2d2d', lineHeight: 1.8, fontFamily: 'Montserrat, sans-serif' }}
+                >
                   [LOREM IPSUM] Nuestra misión es promover la sostenibilidad a través de la
                   investigación, educación y generación de conocimiento. Lorem ipsum dolor sit amet,
                   consectetur adipiscing elit.
@@ -146,7 +150,13 @@ const NosotrosPage: React.FC = () => {
             variant="h5"
             component="h3"
             gutterBottom
-            sx={{ textAlign: 'center', mb: 4, fontWeight: 600 }}
+            sx={{
+              textAlign: 'center',
+              mb: 4,
+              fontWeight: 600,
+              color: '#07a7ff',
+              fontFamily: 'Montserrat, sans-serif',
+            }}
           >
             [LOREM IPSUM] Nuestros Valores
           </Typography>
@@ -164,11 +174,18 @@ const NosotrosPage: React.FC = () => {
                     },
                   }}
                 >
-                  <Box sx={{ color: '#2e7d32', mb: 2 }}>{valor.icono}</Box>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  <Box sx={{ color: '#00bed6', mb: 2 }}>{valor.icono}</Box>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: 600, fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}
+                  >
                     {valor.titulo}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{ color: '#414042', fontFamily: 'Montserrat, sans-serif' }}
+                  >
                     {valor.descripcion}
                   </Typography>
                 </Card>
@@ -178,57 +195,107 @@ const NosotrosPage: React.FC = () => {
         </Box>
 
         {/* Sección de Equipo */}
-        <Box sx={{ mb: 10 }}>
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            sx={{ textAlign: 'center', mb: 6, fontWeight: 700 }}
-          >
-            [LOREM IPSUM] Equipo Principal
-          </Typography>
+        <Box
+          sx={{
+            mb: 10,
+            position: 'relative',
+            py: 6,
+            px: { xs: 2, md: 0 },
+          }}
+        >
+          {/* Fondo decorativo */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(135deg, rgba(0, 190, 214, 0.03) 0%, rgba(106, 191, 75, 0.03) 100%)',
+              borderRadius: 4,
+              zIndex: 0,
+            }}
+          />
 
-          <Grid container spacing={4}>
-            {equipo.map((miembro, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card
+          <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+            {/* Título con decoración */}
+            <Box sx={{ textAlign: 'center', mb: 8 }}>
+              <Typography
+                variant="h3"
+                component="h2"
+                sx={{
+                  fontWeight: 700,
+                  color: '#0a1623',
+                  fontFamily: 'Montserrat, sans-serif',
+                  mb: 2,
+                  fontSize: { xs: '2rem', md: '2.5rem' },
+                }}
+              >
+                Nuestro Equipo Principal
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 2,
+                  mb: 2,
+                }}
+              >
+                <Box
                   sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'transform 0.3s',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                    },
+                    width: '60px',
+                    height: '3px',
+                    background: 'linear-gradient(90deg, transparent, #00bed6)',
+                    borderRadius: 2,
                   }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="250"
-                    image={miembro.foto}
-                    alt={miembro.nombre}
-                    sx={{ objectFit: 'cover' }}
+                />
+                <Box
+                  sx={{
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: '#6abf4b',
+                    borderRadius: '50%',
+                  }}
+                />
+                <Box
+                  sx={{
+                    width: '60px',
+                    height: '3px',
+                    background: 'linear-gradient(90deg, #6abf4b, transparent)',
+                    borderRadius: 2,
+                  }}
+                />
+              </Box>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#414042',
+                  fontFamily: 'Montserrat, sans-serif',
+                  maxWidth: '600px',
+                  mx: 'auto',
+                  fontSize: { xs: '0.95rem', md: '1.1rem' },
+                }}
+              >
+                [LOREM IPSUM] Conoce a los profesionales que lideran nuestras iniciativas en
+                sostenibilidad y desarrollo sostenible.
+              </Typography>
+            </Box>
+
+            {/* Grid de miembros */}
+            <Grid container spacing={{ xs: 3, md: 4 }}>
+              {equipo.map((miembro, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <TeamMemberCard
+                    nombre={miembro.nombre}
+                    cargo={miembro.cargo}
+                    bio={miembro.bio}
+                    foto={miembro.foto}
                   />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
-                      {miembro.nombre}
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="primary"
-                      gutterBottom
-                      sx={{ mb: 1, fontWeight: 500 }}
-                    >
-                      {miembro.cargo}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {miembro.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
         </Box>
 
         {/* Sección de Alianzas */}
