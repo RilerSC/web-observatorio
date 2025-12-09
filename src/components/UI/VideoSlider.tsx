@@ -32,6 +32,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
   const [animationKey, setAnimationKey] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const playAttemptsRef = useRef<Map<number, number>>(new Map());
 
   const isVideo = useCallback((src: string) => {
     if (mode === 'video') return true;
@@ -51,6 +52,38 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     });
   }, []);
 
+  // Función para forzar reproducción de video
+  const forcePlayVideo = useCallback((index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+
+    const attempts = playAttemptsRef.current.get(index) || 0;
+    if (attempts > 5) return; // Evitar loops infinitos
+
+    playAttemptsRef.current.set(index, attempts + 1);
+
+    const tryPlay = () => {
+      if (video.paused && video.readyState >= 2) {
+        video.currentTime = 0;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              playAttemptsRef.current.set(index, 0);
+            })
+            .catch((error) => {
+              console.log('Play failed, retrying...', error);
+              setTimeout(tryPlay, 200);
+            });
+        }
+      } else if (video.readyState < 2) {
+        setTimeout(tryPlay, 100);
+      }
+    };
+
+    tryPlay();
+  }, []);
+
   // Cargar video explícitamente
   const loadVideo = useCallback((index: number) => {
     const video = videoRefs.current[index];
@@ -65,13 +98,12 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
   // Cargar el primer video al montar
   useEffect(() => {
     if (media.length > 0 && isVideo(media[0])) {
-      // Pequeño delay para asegurar que el DOM esté listo
       const timer = setTimeout(() => {
         loadVideo(0);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, []); // Solo al montar
+  }, []);
 
   // Precargar medios adyacentes
   useEffect(() => {
@@ -86,50 +118,40 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     }
   }, [currentIndex, media, isVideo, loadVideo]);
 
-  // Reproducir video actual cuando esté cargado
+  // Reproducir video actual cuando cambia el índice o se carga
   useEffect(() => {
     const currentMedia = media[currentIndex];
     if (isVideo(currentMedia)) {
       const currentVideo = videoRefs.current[currentIndex];
-      if (currentVideo) {
-        if (loadedMedia.has(currentIndex)) {
-          // Asegurar que el video se reproduzca
-          currentVideo.currentTime = 0;
-          const playPromise = currentVideo.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Si falla el autoplay, intentar de nuevo después de un delay
-              setTimeout(() => {
-                currentVideo.play().catch(() => {});
-              }, 100);
-            });
-          }
-        } else {
-          // Si no está cargado, intentar cargarlo
-          loadVideo(currentIndex);
-        }
-      }
       
-      // Pausar otros videos
+      // Pausar todos los videos primero
       videoRefs.current.forEach((video, index) => {
         if (video && index !== currentIndex) {
           video.pause();
           video.currentTime = 0;
         }
       });
-    }
-  }, [currentIndex, loadedMedia, media, isVideo, loadVideo]);
 
-  // Efecto adicional: reproducir video cuando se marca como cargado
+      // Reproducir el video actual
+      if (currentVideo) {
+        if (loadedMedia.has(currentIndex)) {
+          // Si ya está cargado, reproducir inmediatamente
+          forcePlayVideo(currentIndex);
+        } else {
+          // Si no está cargado, cargarlo primero
+          loadVideo(currentIndex);
+        }
+      }
+    }
+  }, [currentIndex, loadedMedia, media, isVideo, loadVideo, forcePlayVideo]);
+
+  // Efecto adicional: reproducir cuando se marca como cargado
   useEffect(() => {
     const currentMedia = media[currentIndex];
     if (isVideo(currentMedia) && loadedMedia.has(currentIndex)) {
-      const currentVideo = videoRefs.current[currentIndex];
-      if (currentVideo && currentVideo.paused) {
-        currentVideo.play().catch(() => {});
-      }
+      forcePlayVideo(currentIndex);
     }
-  }, [loadedMedia, currentIndex, media, isVideo]);
+  }, [loadedMedia, currentIndex, media, isVideo, forcePlayVideo]);
 
   // Auto-avance
   useEffect(() => {
@@ -264,7 +286,6 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                   <video
                     ref={(el) => { 
                       videoRefs.current[index] = el;
-                      // Cargar el video cuando se asigna la referencia
                       if (el && !isLoaded && !loadingMedia.has(index)) {
                         setTimeout(() => {
                           setLoadingMedia(prev => new Set([...prev, index]));
@@ -285,52 +306,39 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                     }}
                     onCanPlay={() => {
                       markMediaLoaded(index);
-                      // Reproducir si es el video actual
                       if (index === currentIndex) {
-                        const video = videoRefs.current[index];
-                        if (video) {
-                          video.play().catch(() => {});
-                        }
+                        forcePlayVideo(index);
                       }
                     }}
                     onCanPlayThrough={() => {
                       markMediaLoaded(index);
-                      // Reproducir si es el video actual
                       if (index === currentIndex) {
-                        const video = videoRefs.current[index];
-                        if (video) {
-                          video.play().catch(() => {});
-                        }
+                        forcePlayVideo(index);
                       }
                     }}
                     onLoadedData={() => {
                       markMediaLoaded(index);
-                      // Reproducir si es el video actual
                       if (index === currentIndex) {
-                        const video = videoRefs.current[index];
-                        if (video) {
-                          video.play().catch(() => {});
-                        }
+                        forcePlayVideo(index);
                       }
                     }}
                     onLoadedMetadata={() => {
-                      // Fallback: marcar como cargado cuando se carga metadata
                       if (!isLoaded) {
                         setTimeout(() => {
                           markMediaLoaded(index);
-                          // Reproducir si es el video actual
                           if (index === currentIndex) {
-                            const video = videoRefs.current[index];
-                            if (video) {
-                              video.play().catch(() => {});
-                            }
+                            forcePlayVideo(index);
                           }
                         }, 200);
                       }
                     }}
+                    onPlay={() => {
+                      // Resetear contador de intentos cuando se reproduce exitosamente
+                      playAttemptsRef.current.set(index, 0);
+                    }}
                     onError={(e) => {
                       console.error('Error loading video:', src, e);
-                      markMediaLoaded(index); // Marcar como "cargado" para evitar loop infinito
+                      markMediaLoaded(index);
                     }}
                   />
                 ) : (
