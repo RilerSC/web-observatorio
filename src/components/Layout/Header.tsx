@@ -28,6 +28,8 @@ const Header: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
       setScrolled(isScrolled);
