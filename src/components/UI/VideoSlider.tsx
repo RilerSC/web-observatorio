@@ -93,8 +93,17 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
       const currentVideo = videoRefs.current[currentIndex];
       if (currentVideo) {
         if (loadedMedia.has(currentIndex)) {
+          // Asegurar que el video se reproduzca
           currentVideo.currentTime = 0;
-          currentVideo.play().catch(() => {});
+          const playPromise = currentVideo.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Si falla el autoplay, intentar de nuevo después de un delay
+              setTimeout(() => {
+                currentVideo.play().catch(() => {});
+              }, 100);
+            });
+          }
         } else {
           // Si no está cargado, intentar cargarlo
           loadVideo(currentIndex);
@@ -105,10 +114,22 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
       videoRefs.current.forEach((video, index) => {
         if (video && index !== currentIndex) {
           video.pause();
+          video.currentTime = 0;
         }
       });
     }
   }, [currentIndex, loadedMedia, media, isVideo, loadVideo]);
+
+  // Efecto adicional: reproducir video cuando se marca como cargado
+  useEffect(() => {
+    const currentMedia = media[currentIndex];
+    if (isVideo(currentMedia) && loadedMedia.has(currentIndex)) {
+      const currentVideo = videoRefs.current[currentIndex];
+      if (currentVideo && currentVideo.paused) {
+        currentVideo.play().catch(() => {});
+      }
+    }
+  }, [loadedMedia, currentIndex, media, isVideo]);
 
   // Auto-avance
   useEffect(() => {
@@ -252,7 +273,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                       }
                     }}
                     src={src}
-                    autoPlay={isCurrent && isLoaded}
+                    autoPlay={isCurrent}
                     loop
                     muted
                     playsInline
@@ -264,17 +285,47 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                     }}
                     onCanPlay={() => {
                       markMediaLoaded(index);
+                      // Reproducir si es el video actual
+                      if (index === currentIndex) {
+                        const video = videoRefs.current[index];
+                        if (video) {
+                          video.play().catch(() => {});
+                        }
+                      }
                     }}
                     onCanPlayThrough={() => {
                       markMediaLoaded(index);
+                      // Reproducir si es el video actual
+                      if (index === currentIndex) {
+                        const video = videoRefs.current[index];
+                        if (video) {
+                          video.play().catch(() => {});
+                        }
+                      }
                     }}
                     onLoadedData={() => {
                       markMediaLoaded(index);
+                      // Reproducir si es el video actual
+                      if (index === currentIndex) {
+                        const video = videoRefs.current[index];
+                        if (video) {
+                          video.play().catch(() => {});
+                        }
+                      }
                     }}
                     onLoadedMetadata={() => {
                       // Fallback: marcar como cargado cuando se carga metadata
                       if (!isLoaded) {
-                        setTimeout(() => markMediaLoaded(index), 200);
+                        setTimeout(() => {
+                          markMediaLoaded(index);
+                          // Reproducir si es el video actual
+                          if (index === currentIndex) {
+                            const video = videoRefs.current[index];
+                            if (video) {
+                              video.play().catch(() => {});
+                            }
+                          }
+                        }, 200);
                       }
                     }}
                     onError={(e) => {
