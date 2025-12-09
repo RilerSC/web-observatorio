@@ -3,104 +3,124 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, IconButton, Typography, CircularProgress } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import Image from 'next/image';
 
-interface VideoSliderProps {
-  videos: string[];
+interface MediaSliderProps {
+  // Acepta videos O imágenes
+  media: string[];
   autoPlay?: boolean;
   interval?: number;
+  // Nuevo: modo de slider (video o imagen)
+  mode?: 'video' | 'image' | 'auto';
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({
-  videos,
+// Efecto Ken Burns con diferentes variaciones
+const kenBurnsEffects = [
+  { // Zoom in desde centro
+    initial: { scale: 1, x: '0%', y: '0%' },
+    animate: { scale: 1.15, x: '0%', y: '0%' },
+  },
+  { // Zoom in hacia arriba-derecha
+    initial: { scale: 1.1, x: '-3%', y: '3%' },
+    animate: { scale: 1.2, x: '3%', y: '-3%' },
+  },
+  { // Zoom out desde arriba-izquierda
+    initial: { scale: 1.2, x: '3%', y: '-3%' },
+    animate: { scale: 1.05, x: '-2%', y: '2%' },
+  },
+  { // Pan de izquierda a derecha
+    initial: { scale: 1.15, x: '-5%', y: '0%' },
+    animate: { scale: 1.15, x: '5%', y: '0%' },
+  },
+];
+
+const VideoSlider: React.FC<MediaSliderProps> = ({
+  media,
   autoPlay = true,
-  interval = 5000,
+  interval = 6000,
+  mode = 'auto',
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loadedVideos, setLoadedVideos] = useState<Set<number>>(new Set([0]));
-  const [loadingVideos, setLoadingVideos] = useState<Set<number>>(new Set([0]));
+  const [loadedMedia, setLoadedMedia] = useState<Set<number>>(new Set());
+  const [loadingMedia, setLoadingMedia] = useState<Set<number>>(new Set([0]));
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Marcar video como cargado
-  const markVideoLoaded = useCallback((index: number) => {
-    setLoadedVideos(prev => new Set([...prev, index]));
-    setLoadingVideos(prev => {
+  // Detectar si el medio es video o imagen
+  const isVideo = useCallback((src: string) => {
+    if (mode === 'video') return true;
+    if (mode === 'image') return false;
+    return src.match(/\.(mp4|webm|ogg|mov)$/i) !== null;
+  }, [mode]);
+
+  // Marcar medio como cargado
+  const markMediaLoaded = useCallback((index: number) => {
+    setLoadedMedia(prev => new Set([...prev, index]));
+    setLoadingMedia(prev => {
       const next = new Set(prev);
       next.delete(index);
       return next;
     });
   }, []);
 
-  // Precargar un video específico
-  const preloadVideo = useCallback((index: number) => {
-    if (loadedVideos.has(index) || loadingVideos.has(index)) return;
-    
-    setLoadingVideos(prev => new Set([...prev, index]));
-    
-    const video = videoRefs.current[index];
-    if (video) {
-      video.load();
-    }
-  }, [loadedVideos, loadingVideos]);
+  // Precargar medio
+  const preloadMedia = useCallback((index: number) => {
+    if (loadedMedia.has(index) || loadingMedia.has(index)) return;
+    setLoadingMedia(prev => new Set([...prev, index]));
+  }, [loadedMedia, loadingMedia]);
 
-  // Precargar videos adyacentes cuando cambia el índice
+  // Precargar medios adyacentes
   useEffect(() => {
-    // Precargar el siguiente video
-    const nextIndex = (currentIndex + 1) % videos.length;
-    preloadVideo(nextIndex);
-    
-    // Precargar el anterior también
-    const prevIndex = (currentIndex - 1 + videos.length) % videos.length;
-    preloadVideo(prevIndex);
-  }, [currentIndex, videos.length, preloadVideo]);
+    const nextIndex = (currentIndex + 1) % media.length;
+    const prevIndex = (currentIndex - 1 + media.length) % media.length;
+    preloadMedia(nextIndex);
+    preloadMedia(prevIndex);
+  }, [currentIndex, media.length, preloadMedia]);
 
-  // Reproducir el video actual cuando está listo
+  // Reproducir video actual
   useEffect(() => {
-    const currentVideo = videoRefs.current[currentIndex];
-    if (currentVideo && loadedVideos.has(currentIndex)) {
-      currentVideo.currentTime = 0;
-      currentVideo.play().catch(() => {
-        // Ignorar errores de autoplay
+    const currentMedia = media[currentIndex];
+    if (isVideo(currentMedia)) {
+      const currentVideo = videoRefs.current[currentIndex];
+      if (currentVideo && loadedMedia.has(currentIndex)) {
+        currentVideo.currentTime = 0;
+        currentVideo.play().catch(() => {});
+      }
+      
+      videoRefs.current.forEach((video, index) => {
+        if (video && index !== currentIndex) {
+          video.pause();
+        }
       });
     }
-    
-    // Pausar otros videos
-    videoRefs.current.forEach((video, index) => {
-      if (video && index !== currentIndex) {
-        video.pause();
-      }
-    });
-  }, [currentIndex, loadedVideos]);
+  }, [currentIndex, loadedMedia, media, isVideo]);
 
-  // Auto-avance del slider
+  // Auto-avance
   useEffect(() => {
     if (!autoPlay) return;
 
-    const startTimer = () => {
-      timerRef.current = setInterval(() => {
-        setIsTransitioning(true);
-        setTimeout(() => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
-          setIsTransitioning(false);
-        }, 100);
-      }, interval);
-    };
-
-    startTimer();
+    timerRef.current = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % media.length);
+        setAnimationKey(prev => prev + 1);
+        setIsTransitioning(false);
+      }, 100);
+    }, interval);
 
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [autoPlay, interval, videos.length]);
+  }, [autoPlay, interval, media.length]);
 
   const goToPrevious = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length);
+      setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
+      setAnimationKey(prev => prev + 1);
       setIsTransitioning(false);
     }, 100);
   };
@@ -109,7 +129,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
     if (timerRef.current) clearInterval(timerRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+      setCurrentIndex((prev) => (prev + 1) % media.length);
+      setAnimationKey(prev => prev + 1);
       setIsTransitioning(false);
     }, 100);
   };
@@ -120,15 +141,28 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentIndex(index);
+      setAnimationKey(prev => prev + 1);
       setIsTransitioning(false);
     }, 100);
   };
 
-  // Determinar si un video debe estar visible (cargado en el DOM)
-  const shouldRenderVideo = (index: number) => {
+  const shouldRenderMedia = (index: number) => {
     return index === currentIndex || 
-           index === (currentIndex + 1) % videos.length || 
-           index === (currentIndex - 1 + videos.length) % videos.length;
+           index === (currentIndex + 1) % media.length || 
+           index === (currentIndex - 1 + media.length) % media.length;
+  };
+
+  // Obtener efecto Ken Burns para este slide
+  const getKenBurnsStyle = (index: number) => {
+    const effect = kenBurnsEffects[index % kenBurnsEffects.length];
+    const isActive = index === currentIndex;
+    
+    return {
+      transform: isActive 
+        ? `scale(${effect.animate.scale}) translate(${effect.animate.x}, ${effect.animate.y})`
+        : `scale(${effect.initial.scale}) translate(${effect.initial.x}, ${effect.initial.y})`,
+      transition: isActive ? `transform ${interval}ms ease-out` : 'none',
+    };
   };
 
   return (
@@ -142,7 +176,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
       }}
     >
       {/* Loading indicator */}
-      {loadingVideos.has(currentIndex) && !loadedVideos.has(currentIndex) && (
+      {loadingMedia.has(currentIndex) && !loadedMedia.has(currentIndex) && (
         <Box
           sx={{
             position: 'absolute',
@@ -156,10 +190,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
             gap: 2,
           }}
         >
-          <CircularProgress 
-            size={50} 
-            sx={{ color: '#00bed6' }} 
-          />
+          <CircularProgress size={50} sx={{ color: '#00bed6' }} />
           <Typography 
             variant="body2" 
             sx={{ 
@@ -167,20 +198,14 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               fontFamily: 'Montserrat, sans-serif',
             }}
           >
-            Cargando video...
+            Cargando...
           </Typography>
         </Box>
       )}
 
-      {/* Video Container */}
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        {videos.map((video, index) => (
+      {/* Media Container */}
+      <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+        {media.map((src, index) => (
           <Box
             key={index}
             sx={{
@@ -189,44 +214,60 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               left: 0,
               width: '100%',
               height: '100%',
-              opacity: index === currentIndex && loadedVideos.has(index) ? 1 : 0,
-              transition: 'opacity 0.8s ease-in-out',
+              opacity: index === currentIndex && loadedMedia.has(index) ? 1 : 0,
+              transition: 'opacity 1s ease-in-out',
               zIndex: index === currentIndex ? 1 : 0,
-              visibility: shouldRenderVideo(index) ? 'visible' : 'hidden',
+              visibility: shouldRenderMedia(index) ? 'visible' : 'hidden',
+              overflow: 'hidden',
             }}
           >
-            {shouldRenderVideo(index) && (
-              <video
-                ref={(el) => {
-                  videoRefs.current[index] = el;
-                }}
-                src={video}
-                autoPlay={false}
-                loop
-                muted
-                playsInline
-                preload={index === currentIndex ? 'auto' : 'metadata'}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                }}
-                onCanPlayThrough={() => {
-                  markVideoLoaded(index);
-                }}
-                onLoadedData={() => {
-                  // Fallback para browsers que no disparan canPlayThrough
-                  setTimeout(() => {
-                    markVideoLoaded(index);
-                  }, 500);
-                }}
-                onError={() => {
-                  // En caso de error, marcar como cargado para evitar loop
-                  markVideoLoaded(index);
-                }}
-              />
+            {shouldRenderMedia(index) && (
+              isVideo(src) ? (
+                // VIDEO
+                <video
+                  ref={(el) => { videoRefs.current[index] = el; }}
+                  src={src}
+                  autoPlay={false}
+                  loop
+                  muted
+                  playsInline
+                  preload={index === currentIndex ? 'auto' : 'metadata'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                  onCanPlayThrough={() => markMediaLoaded(index)}
+                  onLoadedData={() => setTimeout(() => markMediaLoaded(index), 300)}
+                  onError={() => markMediaLoaded(index)}
+                />
+              ) : (
+                // IMAGEN con efecto Ken Burns
+                <Box
+                  key={`${index}-${animationKey}`}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'relative',
+                    ...getKenBurnsStyle(index),
+                  }}
+                >
+                  <Image
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    sizes="100vw"
+                    style={{ objectFit: 'cover' }}
+                    priority={index === 0}
+                    quality={75}
+                    onLoad={() => markMediaLoaded(index)}
+                    onError={() => markMediaLoaded(index)}
+                  />
+                </Box>
+              )
             )}
-            {/* Overlay oscuro para mejor legibilidad */}
+            
+            {/* Overlay oscuro */}
             <Box
               sx={{
                 position: 'absolute',
@@ -234,7 +275,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
                 left: 0,
                 width: '100%',
                 height: '100%',
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%)',
                 zIndex: 1,
               }}
             />
@@ -242,7 +283,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         ))}
       </Box>
 
-      {/* Gradient background como fallback visual */}
+      {/* Gradient background como fallback */}
       <Box
         sx={{
           position: 'absolute',
@@ -261,17 +302,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         disabled={isTransitioning}
         sx={{
           position: 'absolute',
-          left: 16,
+          left: { xs: 8, md: 16 },
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 2,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(4px)',
           color: '#ffffff',
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-          },
-          '&:disabled': {
-            opacity: 0.5,
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
           },
         }}
       >
@@ -283,17 +322,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         disabled={isTransitioning}
         sx={{
           position: 'absolute',
-          right: 16,
+          right: { xs: 8, md: 16 },
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 2,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(4px)',
           color: '#ffffff',
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-          },
-          '&:disabled': {
-            opacity: 0.5,
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
           },
         }}
       >
@@ -309,85 +346,53 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
           transform: 'translateX(-50%)',
           zIndex: 2,
           display: 'flex',
-          gap: 1,
+          gap: 1.5,
         }}
       >
-        {videos.map((_, index) => (
+        {media.map((_, index) => (
           <Box
             key={index}
             onClick={() => goToSlide(index)}
             sx={{
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
-              backgroundColor: index === currentIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
+              width: index === currentIndex ? 24 : 10,
+              height: 10,
+              borderRadius: index === currentIndex ? 5 : '50%',
+              backgroundColor: index === currentIndex ? '#00bed6' : 'rgba(255, 255, 255, 0.5)',
               cursor: 'pointer',
-              transition: 'background-color 0.3s',
-              position: 'relative',
+              transition: 'all 0.3s ease',
               '&:hover': {
-                backgroundColor: '#ffffff',
+                backgroundColor: index === currentIndex ? '#00bed6' : 'rgba(255, 255, 255, 0.8)',
               },
-              // Indicador de carga en cada dot
-              '&::after': loadingVideos.has(index) && !loadedVideos.has(index) ? {
-                content: '""',
-                position: 'absolute',
-                top: -2,
-                left: -2,
-                right: -2,
-                bottom: -2,
-                border: '2px solid #00bed6',
-                borderTopColor: 'transparent',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite',
-              } : {},
             }}
           />
         ))}
       </Box>
 
-      {/* Video Counter */}
+      {/* Counter */}
       <Box
         sx={{
           position: 'absolute',
           bottom: 24,
           right: 24,
           zIndex: 2,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          padding: '4px 12px',
-          borderRadius: 1,
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          backdropFilter: 'blur(4px)',
+          padding: '6px 14px',
+          borderRadius: 2,
           display: 'flex',
           alignItems: 'center',
           gap: 1,
         }}
       >
-        {loadedVideos.has(currentIndex) ? (
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: '#6abf4b',
-            }}
-          />
+        {loadedMedia.has(currentIndex) ? (
+          <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#6abf4b' }} />
         ) : (
           <CircularProgress size={8} sx={{ color: '#00bed6' }} />
         )}
-        <Typography variant="body2" sx={{ color: '#ffffff' }}>
-          {currentIndex + 1} / {videos.length}
+        <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 500 }}>
+          {currentIndex + 1} / {media.length}
         </Typography>
       </Box>
-
-      {/* CSS for spin animation */}
-      <style jsx global>{`
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </Box>
   );
 };
