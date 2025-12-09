@@ -6,32 +6,17 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import Image from 'next/image';
 
 interface MediaSliderProps {
-  // Acepta videos O imágenes
   media: string[];
   autoPlay?: boolean;
   interval?: number;
-  // Nuevo: modo de slider (video o imagen)
   mode?: 'video' | 'image' | 'auto';
 }
 
-// Efecto Ken Burns con diferentes variaciones
 const kenBurnsEffects = [
-  { // Zoom in desde centro
-    initial: { scale: 1, x: '0%', y: '0%' },
-    animate: { scale: 1.15, x: '0%', y: '0%' },
-  },
-  { // Zoom in hacia arriba-derecha
-    initial: { scale: 1.1, x: '-3%', y: '3%' },
-    animate: { scale: 1.2, x: '3%', y: '-3%' },
-  },
-  { // Zoom out desde arriba-izquierda
-    initial: { scale: 1.2, x: '3%', y: '-3%' },
-    animate: { scale: 1.05, x: '-2%', y: '2%' },
-  },
-  { // Pan de izquierda a derecha
-    initial: { scale: 1.15, x: '-5%', y: '0%' },
-    animate: { scale: 1.15, x: '5%', y: '0%' },
-  },
+  { initial: { scale: 1, x: '0%', y: '0%' }, animate: { scale: 1.15, x: '0%', y: '0%' } },
+  { initial: { scale: 1.1, x: '-3%', y: '3%' }, animate: { scale: 1.2, x: '3%', y: '-3%' } },
+  { initial: { scale: 1.2, x: '3%', y: '-3%' }, animate: { scale: 1.05, x: '-2%', y: '2%' } },
+  { initial: { scale: 1.15, x: '-5%', y: '0%' }, animate: { scale: 1.15, x: '5%', y: '0%' } },
 ];
 
 const VideoSlider: React.FC<MediaSliderProps> = ({
@@ -42,22 +27,23 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedMedia, setLoadedMedia] = useState<Set<number>>(new Set());
-  const [loadingMedia, setLoadingMedia] = useState<Set<number>>(new Set([0]));
+  const [loadingMedia, setLoadingMedia] = useState<Set<number>>(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Detectar si el medio es video o imagen
   const isVideo = useCallback((src: string) => {
     if (mode === 'video') return true;
     if (mode === 'image') return false;
     return src.match(/\.(mp4|webm|ogg|mov)$/i) !== null;
   }, [mode]);
 
-  // Marcar medio como cargado
   const markMediaLoaded = useCallback((index: number) => {
-    setLoadedMedia(prev => new Set([...prev, index]));
+    setLoadedMedia(prev => {
+      if (prev.has(index)) return prev;
+      return new Set([...prev, index]);
+    });
     setLoadingMedia(prev => {
       const next = new Set(prev);
       next.delete(index);
@@ -65,37 +51,64 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     });
   }, []);
 
-  // Precargar medio
-  const preloadMedia = useCallback((index: number) => {
-    if (loadedMedia.has(index) || loadingMedia.has(index)) return;
-    setLoadingMedia(prev => new Set([...prev, index]));
-  }, [loadedMedia, loadingMedia]);
+  // Cargar video explícitamente
+  const loadVideo = useCallback((index: number) => {
+    const video = videoRefs.current[index];
+    if (video && isVideo(media[index])) {
+      if (!loadedMedia.has(index) && !loadingMedia.has(index)) {
+        setLoadingMedia(prev => new Set([...prev, index]));
+        video.load();
+      }
+    }
+  }, [media, isVideo, loadedMedia, loadingMedia]);
+
+  // Cargar el primer video al montar
+  useEffect(() => {
+    if (media.length > 0 && isVideo(media[0])) {
+      // Pequeño delay para asegurar que el DOM esté listo
+      const timer = setTimeout(() => {
+        loadVideo(0);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, []); // Solo al montar
 
   // Precargar medios adyacentes
   useEffect(() => {
     const nextIndex = (currentIndex + 1) % media.length;
     const prevIndex = (currentIndex - 1 + media.length) % media.length;
-    preloadMedia(nextIndex);
-    preloadMedia(prevIndex);
-  }, [currentIndex, media.length, preloadMedia]);
+    
+    if (isVideo(media[nextIndex])) {
+      loadVideo(nextIndex);
+    }
+    if (isVideo(media[prevIndex])) {
+      loadVideo(prevIndex);
+    }
+  }, [currentIndex, media, isVideo, loadVideo]);
 
-  // Reproducir video actual
+  // Reproducir video actual cuando esté cargado
   useEffect(() => {
     const currentMedia = media[currentIndex];
     if (isVideo(currentMedia)) {
       const currentVideo = videoRefs.current[currentIndex];
-      if (currentVideo && loadedMedia.has(currentIndex)) {
-        currentVideo.currentTime = 0;
-        currentVideo.play().catch(() => {});
+      if (currentVideo) {
+        if (loadedMedia.has(currentIndex)) {
+          currentVideo.currentTime = 0;
+          currentVideo.play().catch(() => {});
+        } else {
+          // Si no está cargado, intentar cargarlo
+          loadVideo(currentIndex);
+        }
       }
       
+      // Pausar otros videos
       videoRefs.current.forEach((video, index) => {
         if (video && index !== currentIndex) {
           video.pause();
         }
       });
     }
-  }, [currentIndex, loadedMedia, media, isVideo]);
+  }, [currentIndex, loadedMedia, media, isVideo, loadVideo]);
 
   // Auto-avance
   useEffect(() => {
@@ -152,7 +165,6 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
            index === (currentIndex - 1 + media.length) % media.length;
   };
 
-  // Obtener efecto Ken Burns para este slide
   const getKenBurnsStyle = (index: number) => {
     const effect = kenBurnsEffects[index % kenBurnsEffects.length];
     const isActive = index === currentIndex;
@@ -205,82 +217,111 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
 
       {/* Media Container */}
       <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-        {media.map((src, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              opacity: index === currentIndex && loadedMedia.has(index) ? 1 : 0,
-              transition: 'opacity 1s ease-in-out',
-              zIndex: index === currentIndex ? 1 : 0,
-              visibility: shouldRenderMedia(index) ? 'visible' : 'hidden',
-              overflow: 'hidden',
-            }}
-          >
-            {shouldRenderMedia(index) && (
-              isVideo(src) ? (
-                // VIDEO
-                <video
-                  ref={(el) => { videoRefs.current[index] = el; }}
-                  src={src}
-                  autoPlay={false}
-                  loop
-                  muted
-                  playsInline
-                  preload={index === currentIndex ? 'auto' : 'metadata'}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                  onCanPlayThrough={() => markMediaLoaded(index)}
-                  onLoadedData={() => setTimeout(() => markMediaLoaded(index), 300)}
-                  onError={() => markMediaLoaded(index)}
-                />
-              ) : (
-                // IMAGEN con efecto Ken Burns
-                <Box
-                  key={`${index}-${animationKey}`}
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'relative',
-                    ...getKenBurnsStyle(index),
-                  }}
-                >
-                  <Image
-                    src={src}
-                    alt={`Slide ${index + 1}`}
-                    fill
-                    sizes="100vw"
-                    style={{ objectFit: 'cover' }}
-                    priority={index === 0}
-                    quality={75}
-                    onLoad={() => markMediaLoaded(index)}
-                    onError={() => markMediaLoaded(index)}
-                  />
-                </Box>
-              )
-            )}
-            
-            {/* Overlay oscuro */}
+        {media.map((src, index) => {
+          const shouldRender = shouldRenderMedia(index);
+          const isCurrent = index === currentIndex;
+          const isLoaded = loadedMedia.has(index);
+          
+          return (
             <Box
+              key={index}
               sx={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%)',
-                zIndex: 1,
+                opacity: isCurrent && isLoaded ? 1 : 0,
+                transition: 'opacity 1s ease-in-out',
+                zIndex: isCurrent ? 1 : 0,
+                visibility: shouldRender ? 'visible' : 'hidden',
+                overflow: 'hidden',
               }}
-            />
-          </Box>
-        ))}
+            >
+              {shouldRender && (
+                isVideo(src) ? (
+                  <video
+                    ref={(el) => { 
+                      videoRefs.current[index] = el;
+                      // Cargar el video cuando se asigna la referencia
+                      if (el && !isLoaded && !loadingMedia.has(index)) {
+                        setTimeout(() => {
+                          setLoadingMedia(prev => new Set([...prev, index]));
+                          el.load();
+                        }, 50);
+                      }
+                    }}
+                    src={src}
+                    autoPlay={isCurrent && isLoaded}
+                    loop
+                    muted
+                    playsInline
+                    preload={isCurrent ? 'auto' : 'metadata'}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    onCanPlay={() => {
+                      markMediaLoaded(index);
+                    }}
+                    onCanPlayThrough={() => {
+                      markMediaLoaded(index);
+                    }}
+                    onLoadedData={() => {
+                      markMediaLoaded(index);
+                    }}
+                    onLoadedMetadata={() => {
+                      // Fallback: marcar como cargado cuando se carga metadata
+                      if (!isLoaded) {
+                        setTimeout(() => markMediaLoaded(index), 200);
+                      }
+                    }}
+                    onError={(e) => {
+                      console.error('Error loading video:', src, e);
+                      markMediaLoaded(index); // Marcar como "cargado" para evitar loop infinito
+                    }}
+                  />
+                ) : (
+                  <Box
+                    key={`${index}-${animationKey}`}
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'relative',
+                      ...getKenBurnsStyle(index),
+                    }}
+                  >
+                    <Image
+                      src={src}
+                      alt={`Slide ${index + 1}`}
+                      fill
+                      sizes="100vw"
+                      style={{ objectFit: 'cover' }}
+                      priority={index === 0}
+                      quality={75}
+                      onLoad={() => markMediaLoaded(index)}
+                      onError={() => markMediaLoaded(index)}
+                    />
+                  </Box>
+                )
+              )}
+              
+              {/* Overlay oscuro */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%)',
+                  zIndex: 1,
+                }}
+              />
+            </Box>
+          );
+        })}
       </Box>
 
       {/* Gradient background como fallback */}
