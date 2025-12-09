@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
@@ -16,6 +16,30 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   interval = 5000,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Precargar videos cuando cambia el índice actual
+  useEffect(() => {
+    // Precargar el video actual
+    const currentVideo = videoRefs.current[currentIndex];
+    if (currentVideo) {
+      currentVideo.load();
+    }
+
+    // Precargar el siguiente video
+    const nextIndex = (currentIndex + 1) % videos.length;
+    const nextVideo = videoRefs.current[nextIndex];
+    if (nextVideo) {
+      nextVideo.load();
+    }
+
+    // Precargar el video anterior
+    const prevIndex = (currentIndex - 1 + videos.length) % videos.length;
+    const prevVideo = videoRefs.current[prevIndex];
+    if (prevVideo) {
+      prevVideo.load();
+    }
+  }, [currentIndex, videos.length]);
 
   useEffect(() => {
     if (!autoPlay) return;
@@ -69,18 +93,34 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               opacity: index === currentIndex ? 1 : 0,
               transition: 'opacity 0.8s ease-in-out',
               zIndex: index === currentIndex ? 1 : 0,
+              visibility: index === currentIndex || 
+                         index === (currentIndex + 1) % videos.length || 
+                         index === (currentIndex - 1 + videos.length) % videos.length 
+                         ? 'visible' : 'hidden',
             }}
           >
             <video
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
               src={video}
-              autoPlay
+              autoPlay={index === currentIndex}
               loop
               muted
               playsInline
+              preload="auto"
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
+              }}
+              onLoadedData={() => {
+                // Asegurar que el video actual se reproduzca cuando esté listo
+                if (index === currentIndex && videoRefs.current[index]) {
+                  videoRefs.current[index]?.play().catch(() => {
+                    // Ignorar errores de autoplay
+                  });
+                }
               }}
             />
             {/* Overlay oscuro para mejor legibilidad */}
