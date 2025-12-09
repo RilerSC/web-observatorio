@@ -151,24 +151,41 @@ const ContactoPage: React.FC = () => {
 
         <Divider sx={{ my: 8 }} />
 
-        {/* Mapa o Información Adicional (Placeholder) */}
+        {/* Mapa de Ubicación */}
         <Box sx={{ mt: 6 }}>
-          <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
-            [LOREM IPSUM] Ubicación
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              fontWeight: 600,
+              mb: 3,
+              fontFamily: 'Montserrat, sans-serif',
+              color: '#0a1623',
+            }}
+          >
+            Ubicación
           </Typography>
           <Paper
             elevation={2}
             sx={{
-              height: '400px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#f5f5f5',
+              height: { xs: '300px', md: '450px' },
+              overflow: 'hidden',
+              borderRadius: 2,
             }}
           >
-            <Typography variant="body1" sx={{ color: '#999999' }}>
-              [LOREM IPSUM] Mapa de ubicación del Observatorio de Sostenibilidad
-            </Typography>
+            <Box
+              component="iframe"
+              src={`https://www.google.com/maps?q=9.9349941,-84.0914604&z=18&output=embed`}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              sx={{
+                display: 'block',
+              }}
+            />
           </Paper>
         </Box>
       </Container>

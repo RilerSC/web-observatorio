@@ -45,9 +45,8 @@ const Footer: React.FC = () => {
                 style={{ objectFit: 'contain' }}
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2, fontFamily: 'Montserrat, sans-serif' }}>
-              [LOREM IPSUM] Descripción breve del Observatorio de Sostenibilidad y su propósito
-              institucional. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2, fontFamily: 'Montserrat, sans-serif', lineHeight: 1.7 }}>
+              Iniciativa académica y empresarial que monitorea, analiza y promueve el impacto sostenible de las organizaciones en Costa Rica y la región. Transformamos información en acción sostenible mediante ciencia de datos e inteligencia artificial.
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
@@ -157,7 +156,7 @@ const Footer: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
                 <LocationOn sx={{ fontSize: 20, color: '#00bed6', mt: 0.5 }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                  [LOREM IPSUM] Dirección institucional del Observatorio de Sostenibilidad
+                  Dirección institucional del Observatorio de Sostenibilidad
                 </Typography>
               </Box>
             </Box>
@@ -166,37 +165,13 @@ const Footer: React.FC = () => {
 
         <Divider sx={{ my: 4, borderColor: 'rgba(255, 255, 255, 0.2)' }} />
 
-        {/* Logo Institucional y Copyright */}
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                En alianza con:
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Image
-                  src="/logos/fundepos-blanco.png"
-                  alt="Logo FUNDEPOS"
-                  width={150}
-                  height={60}
-                  style={{ objectFit: 'contain' }}
-                />
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', textAlign: { xs: 'left', sm: 'right' }, fontFamily: 'Montserrat, sans-serif' }}>
-              © {new Date().getFullYear()} Observatorio de Sostenibilidad. Todos los derechos
-              reservados.
-            </Typography>
-          </Grid>
-        </Grid>
+        {/* Copyright */}
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
+            © {new Date().getFullYear()} Observatorio de Sostenibilidad. Todos los derechos
+            reservados.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

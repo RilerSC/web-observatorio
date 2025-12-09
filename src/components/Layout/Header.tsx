@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -23,8 +23,19 @@ import Link from 'next/link';
 
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 20;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -54,18 +65,37 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#0a1623', boxShadow: 2 }}>
+      <AppBar
+        position="sticky"
+        sx={{
+          backgroundColor: scrolled ? 'rgba(10, 22, 35, 0.98)' : '#0a1623',
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          boxShadow: scrolled ? 4 : 2,
+          transition: 'all 0.3s ease-in-out',
+          top: 0,
+          zIndex: 1100,
+        }}
+      >
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ py: 1.5 }}>
+          <Toolbar
+            disableGutters
+            sx={{
+              py: scrolled ? 1 : 1.5,
+              transition: 'padding 0.3s ease-in-out',
+            }}
+          >
             <Box sx={{ flexGrow: 0, mr: 3 }}>
               <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
                 <Image
                   src="/logos/LOGO_WHITE.svg"
                   alt="Logo Observatorio de Sostenibilidad"
-                  width={180}
-                  height={60}
+                  width={scrolled ? 150 : 180}
+                  height={scrolled ? 50 : 60}
                   priority
-                  style={{ objectFit: 'contain' }}
+                  style={{
+                    objectFit: 'contain',
+                    transition: 'all 0.3s ease-in-out',
+                  }}
                 />
               </Link>
             </Box>

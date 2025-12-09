@@ -16,19 +16,19 @@ const HomePage: React.FC = () => {
   const temasClave = [
     {
       titulo: 'Ejes Temáticos',
-      descripcion: '[LOREM IPSUM] Descripción de los ejes temáticos del Observatorio de Sostenibilidad. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      descripcion: 'El Observatorio de Sostenibilidad de Costa Rica define su trabajo en cuatro ejes estratégicos : Modelos de negocio de impacto positivo , Nuevos modelos económicos , Economía Naranja y Cultura , y Estrategias de restauración eco-social y sostenibilidad urbana.',
       imagen: '/img/1.jpg',
       enlace: '/ejes-tematicos',
     },
     {
       titulo: 'Noticias',
-      descripcion: '[LOREM IPSUM] Últimas noticias y actualidad sobre sostenibilidad. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      descripcion: 'Últimas noticias y actualidad sobre sostenibilidad.',
       imagen: '/img/2.jpg',
       enlace: '/noticias',
     },
     {
       titulo: 'Proyectos',
-      descripcion: '[LOREM IPSUM] Proyectos e iniciativas del Observatorio de Sostenibilidad. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      descripcion: 'Proyectos e iniciativas del Observatorio de Sostenibilidad.',
       imagen: '/img/3.jpg',
       enlace: '/proyectos',
     },
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
             gutterBottom
             sx={{ fontWeight: 700, mb: 3, color: '#0a1623', fontFamily: 'Montserrat, sans-serif' }}
           >
-            [LOREM IPSUM] Observatorio de Sostenibilidad
+            Observatorio de Sostenibilidad
           </Typography>
           <Typography
             variant="h6"
@@ -60,10 +60,7 @@ const HomePage: React.FC = () => {
               fontFamily: 'Montserrat, sans-serif',
             }}
           >
-            [LOREM IPSUM] Frase corta de propósito del Observatorio de Sostenibilidad. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris.
+            Nuestro propósito es transformar la información en acción sostenible, fortalecer la toma de decisiones basadas en evidencia y consolidarnos como aliados estratégicos en sostenibilidad e innovación.
           </Typography>
         </Box>
       </Container>
@@ -77,7 +74,7 @@ const HomePage: React.FC = () => {
             gutterBottom
             sx={{ textAlign: 'center', mb: 6, fontWeight: 700, color: '#009155', fontFamily: 'Montserrat, sans-serif' }}
           >
-            [LOREM IPSUM] Nuestros Temas Clave
+            Nuestros Temas Clave
           </Typography>
 
           <Grid container spacing={4}>
@@ -154,17 +151,13 @@ const HomePage: React.FC = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, mb: 3, color: '#009155', fontFamily: 'Montserrat, sans-serif' }}>
-              [LOREM IPSUM] Sobre el Observatorio
+              Sobre el Observatorio
             </Typography>
             <Typography variant="body1" paragraph sx={{ color: '#2d2d2d', lineHeight: 1.8, fontFamily: 'Montserrat, sans-serif' }}>
-              [LOREM IPSUM] Información adicional sobre el Observatorio de Sostenibilidad. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua.
+              El Observatorio de Sostenibilidad es una iniciativa académica y empresarial que monitorea, analiza y promueve el impacto sostenible de las organizaciones en Costa Rica y la región. Transformamos información en acción sostenible mediante ciencia de datos e inteligencia artificial.
             </Typography>
             <Typography variant="body1" paragraph sx={{ color: '#2d2d2d', lineHeight: 1.8, fontFamily: 'Montserrat, sans-serif' }}>
-              [LOREM IPSUM] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-              ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-              voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Donde la sostenibilidad se convierte en estrategia. Investigamos, conectamos y generamos soluciones que impulsan a las organizaciones hacia la sostenibilidad del futuro.
             </Typography>
             <Button
               component={Link}

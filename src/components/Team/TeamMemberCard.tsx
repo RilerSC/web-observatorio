@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Box, Divider } from '@mui/material';
+import { Card, CardContent, Typography, Box, Divider, Button } from '@mui/material';
 import Image from 'next/image';
 
 interface TeamMemberCardProps {
@@ -9,6 +9,7 @@ interface TeamMemberCardProps {
   cargo: string;
   bio: string;
   foto: string;
+  onVerPerfil?: () => void;
 }
 
 const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
@@ -16,6 +17,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   cargo,
   bio,
   foto,
+  onVerPerfil,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -62,6 +64,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             fill
             style={{
               objectFit: 'cover',
+              objectPosition: 'center top',
             }}
             sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 25vw"
           />
@@ -135,10 +138,34 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            mb: onVerPerfil ? 2.5 : 0,
           }}
         >
           {bio}
         </Typography>
+
+        {/* Botón Ver perfil completo */}
+        {onVerPerfil && (
+          <Button
+            onClick={onVerPerfil}
+            variant="outlined"
+            size="small"
+            sx={{
+              borderColor: '#00bed6',
+              color: '#00bed6',
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 600,
+              textTransform: 'none',
+              fontSize: '0.8125rem',
+              '&:hover': {
+                borderColor: '#00bed6',
+                backgroundColor: 'rgba(0, 190, 214, 0.08)',
+              },
+            }}
+          >
+            Ver perfil completo
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
