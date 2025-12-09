@@ -29,7 +29,9 @@ import {
   faLeaf,
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 import TeamMemberCard from '@/components/Team/TeamMemberCard';
+import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/UI/ScrollReveal';
 
 const NosotrosPage: React.FC = () => {
   const [openModalEquipo, setOpenModalEquipo] = useState<number | null>(null);
@@ -208,177 +210,291 @@ const NosotrosPage: React.FC = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          backgroundColor: '#0a1623',
+          position: 'relative',
           color: '#ffffff',
-          py: 8,
+          py: { xs: 8, md: 12 },
           textAlign: 'center',
+          overflow: 'hidden',
+          background: `
+            linear-gradient(135deg, #0a1623 0%, #0d2137 50%, #0a1623 100%)
+          `,
         }}
       >
-        <Container maxWidth="lg">
-          <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 2, fontFamily: 'Montserrat, sans-serif' }}>
-            Nosotros
-          </Typography>
-          <Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.9)', maxWidth: '900px', mx: 'auto', fontFamily: 'Montserrat, sans-serif', lineHeight: 1.7 }}>
-            El Observatorio de Sostenibilidad surge como una iniciativa académica, empresarial y colaborativa orientada a monitorear, analizar y promover el impacto ambiental, social, económico, humano y digital de las organizaciones en Costa Rica y la región.
-          </Typography>
+        {/* Elementos decorativos */}
+        <Box
+          component={motion.div}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          sx={{
+            position: 'absolute',
+            top: '-30%',
+            right: '-10%',
+            width: '500px',
+            height: '500px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(106, 191, 75, 0.2) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          component={motion.div}
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.1, 0.15, 0.1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2,
+          }}
+          sx={{
+            position: 'absolute',
+            bottom: '-30%',
+            left: '-10%',
+            width: '400px',
+            height: '400px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0, 190, 214, 0.2) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                color: '#6abf4b',
+                fontFamily: 'Montserrat, sans-serif',
+                fontWeight: 600,
+                letterSpacing: 3,
+                mb: 2,
+                display: 'block',
+              }}
+            >
+              CONÓCENOS
+            </Typography>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 3, fontFamily: 'Montserrat, sans-serif' }}>
+              Nosotros
+            </Typography>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+          >
+            <Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.9)', maxWidth: '900px', mx: 'auto', fontFamily: 'Montserrat, sans-serif', lineHeight: 1.8 }}>
+              El Observatorio de Sostenibilidad surge como una iniciativa académica, empresarial y colaborativa orientada a monitorear, analizar y promover el impacto ambiental, social, económico, humano y digital de las organizaciones en Costa Rica y la región.
+            </Typography>
+          </motion.div>
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Box
+        sx={{
+          position: 'relative',
+          py: { xs: 6, md: 8 },
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #f8fdf6 100%)',
+        }}
+      >
+        <Container maxWidth="lg">
         {/* Sección Sobre el Observatorio */}
         <Box sx={{ mb: 10 }}>
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: 'center',
-              mb: 4,
-              fontWeight: 700,
-              color: '#0a1623',
-              fontFamily: 'Montserrat, sans-serif',
-            }}
-          >
-            Sobre el Observatorio
-          </Typography>
+          <ScrollReveal>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              sx={{
+                textAlign: 'center',
+                mb: 4,
+                fontWeight: 700,
+                color: '#0a1623',
+                fontFamily: 'Montserrat, sans-serif',
+              }}
+            >
+              Sobre el Observatorio
+            </Typography>
+          </ScrollReveal>
 
-          <Paper
-            elevation={0}
-            sx={{
-              p: { xs: 4, md: 5 },
-              backgroundColor: '#f8fffe',
-              border: '1px solid #e0f2f1',
-              borderRadius: 3,
-              mb: 6,
-            }}
-          >
-            <Typography
-              variant="body1"
+          <ScrollReveal delay={0.1}>
+            <Paper
+              elevation={0}
               sx={{
-                color: '#2d2d2d',
-                lineHeight: 1.9,
-                fontFamily: 'Montserrat, sans-serif',
-                fontSize: '1.05rem',
-                mb: 3,
+                p: { xs: 4, md: 5 },
+                background: 'linear-gradient(135deg, #f8fffe 0%, #f0f9f4 100%)',
+                border: '1px solid rgba(106, 191, 75, 0.2)',
+                borderRadius: 4,
+                mb: 6,
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              El Observatorio de Sostenibilidad surge como una iniciativa académica, empresarial y
-              colaborativa orientada a monitorear, analizar y promover el impacto ambiental, social,
-              económico, humano y digital de las organizaciones en Costa Rica y la región,
-              apoyándose en la ciencia de datos y la inteligencia artificial.
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#2d2d2d',
-                lineHeight: 1.9,
-                fontFamily: 'Montserrat, sans-serif',
-                fontSize: '1.05rem',
-                mb: 3,
-              }}
-            >
-              Nuestro propósito es ofrecer información confiable y herramientas de análisis que
-              impulsen la mejora continua, la innovación sostenible y la toma de decisiones
-              estratégicas basadas en evidencia.
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#2d2d2d',
-                lineHeight: 1.9,
-                fontFamily: 'Montserrat, sans-serif',
-                fontSize: '1.05rem',
-              }}
-            >
-              En alianza con la Universidad FUNDEPOS, Tactik Global Marketing Services, la Red GCE
-              (Red Internacional de Investigación en Gestión del Conocimiento Empresarial) y
-              Naturally Digital, el Observatorio consolida un espacio de cooperación
-              interinstitucional que fomenta la investigación aplicada, la innovación responsable y
-              la articulación entre academia, empresa y sociedad.
-            </Typography>
-          </Paper>
+              {/* Decoración sutil */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: -50,
+                  right: -50,
+                  width: 150,
+                  height: 150,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(0, 190, 214, 0.1) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                }}
+              />
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#2d2d2d',
+                  lineHeight: 1.9,
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontSize: '1.05rem',
+                  mb: 3,
+                  position: 'relative',
+                }}
+              >
+                El Observatorio de Sostenibilidad surge como una iniciativa académica, empresarial y
+                colaborativa orientada a monitorear, analizar y promover el impacto ambiental, social,
+                económico, humano y digital de las organizaciones en Costa Rica y la región,
+                apoyándose en la ciencia de datos y la inteligencia artificial.
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#2d2d2d',
+                  lineHeight: 1.9,
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontSize: '1.05rem',
+                  mb: 3,
+                }}
+              >
+                Nuestro propósito es ofrecer información confiable y herramientas de análisis que
+                impulsen la mejora continua, la innovación sostenible y la toma de decisiones
+                estratégicas basadas en evidencia.
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#2d2d2d',
+                  lineHeight: 1.9,
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontSize: '1.05rem',
+                }}
+              >
+                En alianza con la Universidad FUNDEPOS, Tactik Global Marketing Services, la Red GCE
+                (Red Internacional de Investigación en Gestión del Conocimiento Empresarial) y
+                Naturally Digital, el Observatorio consolida un espacio de cooperación
+                interinstitucional que fomenta la investigación aplicada, la innovación responsable y
+                la articulación entre academia, empresa y sociedad.
+              </Typography>
+            </Paper>
+          </ScrollReveal>
 
           {/* Beneficios */}
-          <Typography
-            variant="h5"
-            component="h3"
-            gutterBottom
-            sx={{
-              textAlign: 'center',
-              mb: 4,
-              fontWeight: 700,
-              color: '#009155',
-              fontFamily: 'Montserrat, sans-serif',
-            }}
-          >
-            Beneficios
-          </Typography>
-          <Grid container spacing={3}>
-            {[
-              {
-                titulo: 'Proyección institucional',
-                descripcion:
-                  'Fortalece la imagen local e internacional en las dimensiones económica, ambiental, social, humana, digital y de gobernanza.',
-                color: '#07a7ff',
-              },
-              {
-                titulo: 'Investigación e innovación',
-                descripcion:
-                  'Impulsa proyectos sostenibles y facilita la atracción de fondos y colaboraciones externas.',
-                color: '#6abf4b',
-              },
-              {
-                titulo: 'Formación de talento',
-                descripcion:
-                  'Inspira a nuevas generaciones comprometidas con la sostenibilidad y la transformación organizacional.',
-                color: '#00bed6',
-              },
-              {
-                titulo: 'Liderazgo regional',
-                descripcion: 'Posicionarse como referente en sostenibilidad.',
+          <ScrollReveal delay={0.2}>
+            <Typography
+              variant="h5"
+              component="h3"
+              gutterBottom
+              sx={{
+                textAlign: 'center',
+                mb: 4,
+                fontWeight: 700,
                 color: '#009155',
-              },
-            ].map((beneficio, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    textAlign: 'center',
-                    p: 3,
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    borderTop: `4px solid ${beneficio.color}`,
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: 4,
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{
-                      fontWeight: 700,
-                      fontFamily: 'Montserrat, sans-serif',
-                      color: beneficio.color,
-                      mb: 2,
-                    }}
-                  >
-                    {beneficio.titulo}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: '#414042',
-                      fontFamily: 'Montserrat, sans-serif',
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    {beneficio.descripcion}
-                  </Typography>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                fontFamily: 'Montserrat, sans-serif',
+              }}
+            >
+              Beneficios
+            </Typography>
+          </ScrollReveal>
+          <StaggerContainer staggerDelay={0.1}>
+            <Grid container spacing={3}>
+              {[
+                {
+                  titulo: 'Proyección institucional',
+                  descripcion:
+                    'Fortalece la imagen local e internacional en las dimensiones económica, ambiental, social, humana, digital y de gobernanza.',
+                  color: '#07a7ff',
+                },
+                {
+                  titulo: 'Investigación e innovación',
+                  descripcion:
+                    'Impulsa proyectos sostenibles y facilita la atracción de fondos y colaboraciones externas.',
+                  color: '#6abf4b',
+                },
+                {
+                  titulo: 'Formación de talento',
+                  descripcion:
+                    'Inspira a nuevas generaciones comprometidas con la sostenibilidad y la transformación organizacional.',
+                  color: '#00bed6',
+                },
+                {
+                  titulo: 'Liderazgo regional',
+                  descripcion: 'Posicionarse como referente en sostenibilidad.',
+                  color: '#009155',
+                },
+              ].map((beneficio, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <StaggerItem>
+                    <Card
+                      component={motion.div}
+                      whileHover={{ y: -8, scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
+                      sx={{
+                        height: '100%',
+                        textAlign: 'center',
+                        p: 3,
+                        borderRadius: 3,
+                        borderTop: `4px solid ${beneficio.color}`,
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
+                        '&:hover': {
+                          boxShadow: '0 15px 35px rgba(0, 0, 0, 0.1)',
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          fontWeight: 700,
+                          fontFamily: 'Montserrat, sans-serif',
+                          color: beneficio.color,
+                          mb: 2,
+                        }}
+                      >
+                        {beneficio.titulo}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: '#414042',
+                          fontFamily: 'Montserrat, sans-serif',
+                          lineHeight: 1.7,
+                        }}
+                      >
+                        {beneficio.descripcion}
+                      </Typography>
+                    </Card>
+                  </StaggerItem>
+                </Grid>
+              ))}
+            </Grid>
+          </StaggerContainer>
         </Box>
 
         {/* Sección de Misión y Visión */}
@@ -386,153 +502,186 @@ const NosotrosPage: React.FC = () => {
           <Grid container spacing={4} sx={{ mb: 8 }}>
             {/* Misión */}
             <Grid item xs={12} md={6}>
-              <Paper
-                elevation={2}
-                sx={{
-                  p: 5,
-                  height: '100%',
-                  backgroundColor: '#FFFFFF',
-                  borderLeft: '4px solid #6abf4b',
-                  borderRadius: 2,
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  component="h2"
-                  gutterBottom
+              <ScrollReveal direction="left">
+                <Paper
+                  component={motion.div}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  elevation={0}
                   sx={{
-                    fontWeight: 700,
-                    color: '#07a7ff',
-                    fontFamily: 'Montserrat, sans-serif',
-                    mb: 3,
+                    p: 5,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #FFFFFF 0%, #f8fdf6 100%)',
+                    borderLeft: '4px solid #6abf4b',
+                    borderRadius: 3,
+                    boxShadow: '0 4px 25px rgba(0, 0, 0, 0.06)',
+                    '&:hover': {
+                      boxShadow: '0 15px 40px rgba(0, 0, 0, 0.1)',
+                    },
                   }}
                 >
-                  Misión
-                </Typography>
-                <Divider sx={{ mb: 3, borderColor: '#6abf4b' }} />
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: '#2d2d2d',
-                    lineHeight: 1.8,
-                    fontFamily: 'Montserrat, sans-serif',
-                    fontSize: '1.05rem',
-                  }}
-                >
-                  Monitorear el desarrollo sostenible mediante la investigación, el análisis y la
-                  difusión de prácticas que equilibren la protección ambiental, el bienestar social
-                  y el crecimiento económico, proponiendo acciones que aseguren un futuro próspero y
-                  justo para todas las generaciones.
-                </Typography>
-              </Paper>
+                  <Typography
+                    variant="h4"
+                    component="h2"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      color: '#07a7ff',
+                      fontFamily: 'Montserrat, sans-serif',
+                      mb: 3,
+                    }}
+                  >
+                    Misión
+                  </Typography>
+                  <Divider sx={{ mb: 3, borderColor: '#6abf4b' }} />
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: '#2d2d2d',
+                      lineHeight: 1.8,
+                      fontFamily: 'Montserrat, sans-serif',
+                      fontSize: '1.05rem',
+                    }}
+                  >
+                    Monitorear el desarrollo sostenible mediante la investigación, el análisis y la
+                    difusión de prácticas que equilibren la protección ambiental, el bienestar social
+                    y el crecimiento económico, proponiendo acciones que aseguren un futuro próspero y
+                    justo para todas las generaciones.
+                  </Typography>
+                </Paper>
+              </ScrollReveal>
             </Grid>
 
             {/* Visión */}
             <Grid item xs={12} md={6}>
-              <Paper
-                elevation={2}
-                sx={{
-                  p: 5,
-                  height: '100%',
-                  backgroundColor: '#FFFFFF',
-                  borderLeft: '4px solid #6abf4b',
-                  borderRadius: 2,
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  component="h2"
-                  gutterBottom
+              <ScrollReveal direction="right" delay={0.1}>
+                <Paper
+                  component={motion.div}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  elevation={0}
                   sx={{
-                    fontWeight: 700,
-                    color: '#07a7ff',
-                    fontFamily: 'Montserrat, sans-serif',
-                    mb: 3,
+                    p: 5,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #FFFFFF 0%, #f0f9ff 100%)',
+                    borderLeft: '4px solid #00bed6',
+                    borderRadius: 3,
+                    boxShadow: '0 4px 25px rgba(0, 0, 0, 0.06)',
+                    '&:hover': {
+                      boxShadow: '0 15px 40px rgba(0, 0, 0, 0.1)',
+                    },
                   }}
                 >
-                  Visión
-                </Typography>
-                <Divider sx={{ mb: 3, borderColor: '#6abf4b' }} />
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: '#2d2d2d',
-                    lineHeight: 1.8,
-                    fontFamily: 'Montserrat, sans-serif',
-                    fontSize: '1.05rem',
-                  }}
-                >
-                  Aspiramos a proponer e informar sobre las formas en que la sociedad aborda el
-                  desarrollo sostenible, inspirando a todas las partes interesadas a colaborar en la
-                  construcción de un mundo más equilibrado y resiliente.
-                </Typography>
-              </Paper>
+                  <Typography
+                    variant="h4"
+                    component="h2"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      color: '#07a7ff',
+                      fontFamily: 'Montserrat, sans-serif',
+                      mb: 3,
+                    }}
+                  >
+                    Visión
+                  </Typography>
+                  <Divider sx={{ mb: 3, borderColor: '#00bed6' }} />
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: '#2d2d2d',
+                      lineHeight: 1.8,
+                      fontFamily: 'Montserrat, sans-serif',
+                      fontSize: '1.05rem',
+                    }}
+                  >
+                    Aspiramos a proponer e informar sobre las formas en que la sociedad aborda el
+                    desarrollo sostenible, inspirando a todas las partes interesadas a colaborar en la
+                    construcción de un mundo más equilibrado y resiliente.
+                  </Typography>
+                </Paper>
+              </ScrollReveal>
             </Grid>
           </Grid>
 
           {/* Valores */}
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: 'center',
-              mb: 6,
-              fontWeight: 700,
-              color: '#0a1623',
-              fontFamily: 'Montserrat, sans-serif',
-            }}
-          >
-            Nuestros Valores Fundamentales
-          </Typography>
-          <Grid container spacing={4}>
-            {valores.map((valor, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    textAlign: 'center',
-                    p: 3,
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    borderTop: `3px solid ${valor.color}`,
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: 4,
-                    },
-                  }}
-                >
-                  <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
-                    <FontAwesomeIcon
-                      icon={valor.icono}
-                      style={{ fontSize: '40px', color: valor.color }}
-                    />
-                  </Box>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{
-                      fontWeight: 700,
-                      fontFamily: 'Montserrat, sans-serif',
-                      color: '#2d2d2d',
-                      mb: 2,
-                    }}
-                  >
-                    {valor.titulo}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: '#414042',
-                      fontFamily: 'Montserrat, sans-serif',
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    {valor.descripcion}
-                  </Typography>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <ScrollReveal>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              sx={{
+                textAlign: 'center',
+                mb: 6,
+                fontWeight: 700,
+                color: '#0a1623',
+                fontFamily: 'Montserrat, sans-serif',
+              }}
+            >
+              Nuestros Valores Fundamentales
+            </Typography>
+          </ScrollReveal>
+          <StaggerContainer staggerDelay={0.08}>
+            <Grid container spacing={4}>
+              {valores.map((valor, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <StaggerItem>
+                    <Card
+                      component={motion.div}
+                      whileHover={{ y: -10, scale: 1.03 }}
+                      transition={{ duration: 0.3 }}
+                      sx={{
+                        height: '100%',
+                        textAlign: 'center',
+                        p: 3,
+                        borderRadius: 3,
+                        borderTop: `3px solid ${valor.color}`,
+                        background: 'linear-gradient(180deg, #FFFFFF 0%, #fafafa 100%)',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
+                        '&:hover': {
+                          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.12)',
+                        },
+                      }}
+                    >
+                      <Box
+                        component={motion.div}
+                        whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                        transition={{ duration: 0.5 }}
+                        sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}
+                      >
+                        <FontAwesomeIcon
+                          icon={valor.icono}
+                          style={{ fontSize: '40px', color: valor.color }}
+                        />
+                      </Box>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          fontWeight: 700,
+                          fontFamily: 'Montserrat, sans-serif',
+                          color: '#2d2d2d',
+                          mb: 2,
+                        }}
+                      >
+                        {valor.titulo}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: '#414042',
+                          fontFamily: 'Montserrat, sans-serif',
+                          lineHeight: 1.7,
+                        }}
+                      >
+                        {valor.descripcion}
+                      </Typography>
+                    </Card>
+                  </StaggerItem>
+                </Grid>
+              ))}
+            </Grid>
+          </StaggerContainer>
         </Box>
 
         {/* Sección de Equipo */}
@@ -552,7 +701,7 @@ const NosotrosPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'linear-gradient(135deg, rgba(0, 190, 214, 0.03) 0%, rgba(106, 191, 75, 0.03) 100%)',
+              background: 'linear-gradient(135deg, rgba(0, 190, 214, 0.05) 0%, rgba(106, 191, 75, 0.05) 100%)',
               borderRadius: 4,
               zIndex: 0,
             }}
@@ -560,68 +709,91 @@ const NosotrosPage: React.FC = () => {
 
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
             {/* Título con decoración */}
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
-              <Typography
-                variant="h3"
-                component="h2"
-                sx={{
-                  fontWeight: 700,
-                  color: '#0a1623',
-                  fontFamily: 'Montserrat, sans-serif',
-                  mb: 2,
-                  fontSize: { xs: '2rem', md: '2.5rem' },
-                }}
-              >
-                Nuestro Equipo Principal
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 2,
-                  mb: 2,
-                }}
-              >
+            <ScrollReveal>
+              <Box sx={{ textAlign: 'center', mb: 8 }}>
+                <Typography
+                  variant="h3"
+                  component="h2"
+                  sx={{
+                    fontWeight: 700,
+                    color: '#0a1623',
+                    fontFamily: 'Montserrat, sans-serif',
+                    mb: 2,
+                    fontSize: { xs: '2rem', md: '2.5rem' },
+                  }}
+                >
+                  Nuestro Equipo Principal
+                </Typography>
                 <Box
                   sx={{
-                    width: '60px',
-                    height: '3px',
-                    background: 'linear-gradient(90deg, transparent, #00bed6)',
-                    borderRadius: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 2,
+                    mb: 2,
                   }}
-                />
-                <Box
+                >
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 60 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  >
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '3px',
+                        background: 'linear-gradient(90deg, transparent, #00bed6)',
+                        borderRadius: 2,
+                      }}
+                    />
+                  </motion.div>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
+                    <Box
+                      sx={{
+                        width: '8px',
+                        height: '8px',
+                        backgroundColor: '#6abf4b',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  </motion.div>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 60 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  >
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '3px',
+                        background: 'linear-gradient(90deg, #6abf4b, transparent)',
+                        borderRadius: 2,
+                      }}
+                    />
+                  </motion.div>
+                </Box>
+                <Typography
+                  variant="body1"
                   sx={{
-                    width: '8px',
-                    height: '8px',
-                    backgroundColor: '#6abf4b',
-                    borderRadius: '50%',
+                    color: '#414042',
+                    fontFamily: 'Montserrat, sans-serif',
+                    maxWidth: '600px',
+                    mx: 'auto',
+                    fontSize: { xs: '0.95rem', md: '1.1rem' },
                   }}
-                />
-                <Box
-                  sx={{
-                    width: '60px',
-                    height: '3px',
-                    background: 'linear-gradient(90deg, #6abf4b, transparent)',
-                    borderRadius: 2,
-                  }}
-                />
+                >
+                  Conoce a los profesionales que lideran nuestras iniciativas en
+                  sostenibilidad y desarrollo sostenible.
+                </Typography>
               </Box>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: '#414042',
-                  fontFamily: 'Montserrat, sans-serif',
-                  maxWidth: '600px',
-                  mx: 'auto',
-                  fontSize: { xs: '0.95rem', md: '1.1rem' },
-                }}
-              >
-                Conoce a los profesionales que lideran nuestras iniciativas en
-                sostenibilidad y desarrollo sostenible.
-              </Typography>
-            </Box>
+            </ScrollReveal>
 
             {/* Grid de miembros */}
             <Grid container spacing={{ xs: 3, md: 4 }}>
@@ -1057,7 +1229,8 @@ const NosotrosPage: React.FC = () => {
             </Dialog>
           )}
         </Box>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   );
 };
