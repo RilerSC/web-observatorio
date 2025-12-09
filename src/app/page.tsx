@@ -10,13 +10,10 @@ import ImpactSection from '@/components/UI/ImpactSection';
 import { motion } from 'framer-motion';
 
 const HomePage: React.FC = () => {
-  // Usando imágenes con efecto Ken Burns para mejor rendimiento
-  const heroMedia = [
-    '/img/1.jpg',
-    '/img/2.jpg',
-    '/img/3.jpg',
-    '/img/4.jpg',
-    '/img/5.jpg',
+  // Usando solo los videos más ligeros para mejor rendimiento
+  const heroVideos = [
+    '/video/v2.mp4',  // 3.4MB
+    '/video/v4.mp4',  // 7.2MB
   ];
 
   const temasClave = [
@@ -42,8 +39,8 @@ const HomePage: React.FC = () => {
 
   return (
     <Box>
-      {/* Hero Slider con imágenes y efecto Ken Burns */}
-      <VideoSlider media={heroMedia} autoPlay={true} interval={6000} mode="image" />
+      {/* Hero Slider con videos optimizados */}
+      <VideoSlider media={heroVideos} autoPlay={true} interval={6000} mode="video" />
 
       {/* Sección de Propósito con fondo gradiente */}
       <Box
