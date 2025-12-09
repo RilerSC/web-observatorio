@@ -10,10 +10,12 @@ import ImpactSection from '@/components/UI/ImpactSection';
 import { motion } from 'framer-motion';
 
 const HomePage: React.FC = () => {
-  // Usando solo los videos más ligeros para mejor rendimiento
+  // Videos del slider principal
   const heroVideos = [
     '/video/v2.mp4',  // 3.4MB
     '/video/v4.mp4',  // 7.2MB
+    '/video/v5.mp4',
+    '/video/v6.mp4',
   ];
 
   const temasClave = [
