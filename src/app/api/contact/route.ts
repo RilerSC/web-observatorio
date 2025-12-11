@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Configuración para Vercel serverless
+export const runtime = 'nodejs';
+export const maxDuration = 30; // 30 segundos máximo
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -32,7 +36,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Configurar el transportador de correo con opciones mejoradas para evitar spam
+    // Configurar el transportador de correo optimizado para Vercel/serverless
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),
@@ -42,27 +46,13 @@ export async function POST(request: NextRequest) {
         pass: process.env.SMTP_PASSWORD,
       },
       tls: {
-        // No fallar en certificados inválidos
         rejectUnauthorized: false,
       },
-      // Mejoras para evitar spam
-      pool: true,
-      maxConnections: 1,
-      rateDelta: 20000,
-      rateLimit: 5,
+      // Configuración optimizada para serverless (sin pool para evitar timeouts)
+      connectionTimeout: 10000, // 10 segundos
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
     });
-
-    // Verificar la conexión antes de enviar
-    try {
-      await transporter.verify();
-      console.log('Conexión SMTP verificada correctamente');
-    } catch (verifyError: any) {
-      console.error('Error al verificar conexión SMTP:', verifyError);
-      return NextResponse.json(
-        { error: 'Error de conexión con el servidor de correo. Verifica las credenciales.' },
-        { status: 500 }
-      );
-    }
 
     // Sanitizar el nombre para evitar inyección
     const sanitizedName = nombre.replace(/[<>]/g, '');
@@ -118,15 +108,6 @@ Este mensaje fue enviado desde el formulario de contacto del Observatorio de Sos
       `,
     };
 
-    // Verificar que las variables de entorno estén configuradas
-    if (!process.env.SMTP_EMAIL || !process.env.SMTP_PASSWORD) {
-      console.error('Variables de entorno SMTP no configuradas');
-      return NextResponse.json(
-        { error: 'Error de configuración del servidor. Por favor, contacta al administrador.' },
-        { status: 500 }
-      );
-    }
-
     // Enviar el correo
     const info = await transporter.sendMail(mailOptions);
     
@@ -141,23 +122,34 @@ Este mensaje fue enviado desde el formulario de contacto del Observatorio de Sos
       { status: 200 }
     );
   } catch (error: any) {
-    console.error('Error al enviar correo:', {
-      message: error.message,
-      code: error.code,
-      response: error.response,
-      stack: error.stack,
-    });
+    // Log detallado del error para debugging en Vercel
+    const errorDetails = {
+      message: error?.message || 'Error desconocido',
+      code: error?.code,
+      command: error?.command,
+      response: error?.response,
+      responseCode: error?.responseCode,
+      stack: error?.stack,
+    };
+    
+    console.error('Error al enviar correo:', JSON.stringify(errorDetails, null, 2));
     
     // Mensaje de error más descriptivo
     let errorMessage = 'Error al enviar el correo. Por favor, intenta nuevamente.';
-    if (error.code === 'EAUTH') {
+    if (error?.code === 'EAUTH') {
       errorMessage = 'Error de autenticación. Verifica las credenciales del servidor.';
-    } else if (error.code === 'ECONNECTION') {
-      errorMessage = 'Error de conexión con el servidor de correo.';
+    } else if (error?.code === 'ECONNECTION' || error?.code === 'ETIMEDOUT') {
+      errorMessage = 'Error de conexión con el servidor de correo. Verifica la configuración.';
+    } else if (error?.code === 'EENVELOPE') {
+      errorMessage = 'Error en la configuración del correo.';
     }
     
     return NextResponse.json(
-      { error: errorMessage },
+      { 
+        error: errorMessage,
+        // En desarrollo, incluir más detalles
+        ...(process.env.NODE_ENV === 'development' && { details: errorDetails })
+      },
       { status: 500 }
     );
   }
