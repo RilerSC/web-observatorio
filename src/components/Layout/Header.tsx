@@ -52,7 +52,7 @@ const Header: React.FC = () => {
     { label: 'Inicio', href: '/' },
     { label: 'Nosotros', href: '/nosotros' },
     { label: 'Ejes Temáticos', href: '/ejes-tematicos' },
-    { label: 'Proyectos', href: '/proyectos' },
+    // { label: 'Proyectos', href: '/proyectos' },
     { label: 'Noticias', href: '/noticias' },
     { label: 'Contacto', href: '/contacto' },
   ];

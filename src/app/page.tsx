@@ -31,12 +31,12 @@ const HomePage: React.FC = () => {
       imagen: '/img/2.jpg',
       enlace: '/noticias',
     },
-    {
-      titulo: 'Proyectos',
-      descripcion: 'Descubre los proyectos e iniciativas del Observatorio de Sostenibilidad que están transformando la manera en que las organizaciones abordan los desafíos ambientales, sociales y económicos, generando impacto positivo y sostenible en la región.',
-      imagen: '/img/3.jpg',
-      enlace: '/proyectos',
-    },
+    // {
+    //   titulo: 'Proyectos',
+    //   descripcion: 'Descubre los proyectos e iniciativas del Observatorio de Sostenibilidad que están transformando la manera en que las organizaciones abordan los desafíos ambientales, sociales y económicos, generando impacto positivo y sostenible en la región.',
+    //   imagen: '/img/3.jpg',
+    //   enlace: '/proyectos',
+    // },
   ];
 
   return (
@@ -160,9 +160,9 @@ const HomePage: React.FC = () => {
           </ScrollReveal>
 
           <StaggerContainer staggerDelay={0.15}>
-            <Grid container spacing={4}>
+            <Grid container spacing={4} justifyContent="center">
               {temasClave.map((tema, index) => (
-                <Grid item xs={12} md={4} key={index}>
+                <Grid item xs={12} md={6} key={index} sx={{ maxWidth: { md: '500px' } }}>
                   <StaggerItem>
                     <Card
                       component={motion.div}
