@@ -32,17 +32,49 @@ const Footer: React.FC = () => {
         mt: 'auto',
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ position: 'relative' }}>
+        {/* Logo FUNDEPOS en esquina superior derecha */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 24,
+            right: 0,
+            display: { xs: 'none', md: 'block' },
+            zIndex: 1,
+          }}
+        >
+          <MuiLink
+            href="https://fundepos.ac.cr"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              display: 'block',
+              transition: 'opacity 0.3s ease',
+              '&:hover': {
+                opacity: 0.8,
+              },
+            }}
+          >
+            <Image
+              src="/logos/fundepos-blanco.png"
+              alt="Universidad FUNDEPOS"
+              width={90}
+              height={36}
+              style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
+            />
+          </MuiLink>
+        </Box>
+
         <Grid container spacing={4}>
           {/* Logo y Descripción */}
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <Box sx={{ mb: 2 }}>
               <Image
                 src="/logos/LOGO_COLOR.svg"
                 alt="Logo Observatorio de Sostenibilidad"
-                width={200}
-                height={70}
-                style={{ objectFit: 'contain' }}
+                width={50}
+                height={17}
+                style={{ objectFit: 'contain', width: 800, height: 280 }}
               />
             </Box>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2, fontFamily: 'Montserrat, sans-serif', lineHeight: 1.7 }}>
@@ -64,15 +96,14 @@ const Footer: React.FC = () => {
             </Box>
           </Grid>
 
-          {/* Logo FUNDEPOS */}
-          <Grid item xs={12} md={3}>
+          {/* Logo FUNDEPOS para móviles */}
+          <Grid item xs={12} md={0} sx={{ display: { xs: 'block', md: 'none' } }}>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: { xs: 'flex-start', md: 'center' },
-                height: '100%',
-                pt: { xs: 0, md: 2 },
+                justifyContent: 'flex-start',
+                mb: 2,
               }}
             >
               <MuiLink
@@ -90,9 +121,9 @@ const Footer: React.FC = () => {
                 <Image
                   src="/logos/fundepos-blanco.png"
                   alt="Universidad FUNDEPOS"
-                  width={200}
-                  height={80}
-                  style={{ objectFit: 'contain' }}
+                  width={180}
+                  height={72}
+                  style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
                 />
               </MuiLink>
             </Box>

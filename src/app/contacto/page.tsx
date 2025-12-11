@@ -26,10 +26,10 @@ const ContactoPage: React.FC = () => {
       >
         <Container maxWidth="lg">
           <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 2, fontFamily: 'Montserrat, sans-serif' }}>
-            [LOREM IPSUM] Contacto
+            Contacto
           </Typography>
           <Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.9)', maxWidth: '800px', mx: 'auto', fontFamily: 'Montserrat, sans-serif' }}>
-            [LOREM IPSUM] Estamos aquí para ayudarte. Contáctanos para más información sobre el
+            Estamos aquí para ayudarte. Contáctanos para más información sobre el
             Observatorio de Sostenibilidad.
           </Typography>
         </Container>
@@ -40,7 +40,7 @@ const ContactoPage: React.FC = () => {
           {/* Información de Contacto */}
           <Grid item xs={12} md={5}>
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, mb: 4 }}>
-              [LOREM IPSUM] Información de Contacto
+              Información de Contacto
             </Typography>
 
             <Paper elevation={2} sx={{ p: 4, mb: 3 }}>
@@ -58,10 +58,10 @@ const ContactoPage: React.FC = () => {
                     Correo Electrónico
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
-                    contacto@observatorio.edu
+                    lgomez@fundepos.ac.cr
                   </Typography>
                   <Typography variant="body2" sx={{ color: '#999999', mt: 0.5 }}>
-                    [LOREM IPSUM] Para consultas generales
+                    Para consultas generales
                   </Typography>
                 </Box>
               </Box>
@@ -82,10 +82,9 @@ const ContactoPage: React.FC = () => {
                     Teléfono
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
-                    +57 (1) 123 4567
-                  </Typography>
+                  +506 4001 9254                  </Typography>
                   <Typography variant="body2" sx={{ color: '#999999', mt: 0.5 }}>
-                    [LOREM IPSUM] Lunes a Viernes, 8:00 AM - 5:00 PM
+                    Lunes a Viernes, 8:00 AM - 5:00 PM
                   </Typography>
                 </Box>
               </Box>
@@ -106,10 +105,10 @@ const ContactoPage: React.FC = () => {
                     Dirección
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
-                    [LOREM IPSUM] Dirección institucional del Observatorio de Sostenibilidad
+                    Dirección institucional del Observatorio de Sostenibilidad
                   </Typography>
                   <Typography variant="body2" sx={{ color: '#999999', mt: 0.5 }}>
-                    [LOREM IPSUM] Ciudad, País
+                  Torre Mercedes, Piso 2, San José, San Bosco, 10105
                   </Typography>
                 </Box>
               </Box>
@@ -132,11 +131,8 @@ const ContactoPage: React.FC = () => {
                   <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
                     Lunes a Viernes: 8:00 AM - 5:00 PM
                   </Typography>
-                  <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
-                    Sábados: 9:00 AM - 1:00 PM
-                  </Typography>
                   <Typography variant="body2" sx={{ color: '#999999', mt: 0.5 }}>
-                    [LOREM IPSUM] Cerrado los domingos y días festivos
+                    Cerrado los sabados, domingos y días festivos
                   </Typography>
                 </Box>
               </Box>

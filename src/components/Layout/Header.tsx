@@ -24,11 +24,16 @@ import Link from 'next/link';
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
 
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -37,7 +42,7 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mounted]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -92,11 +97,13 @@ const Header: React.FC = () => {
                 <Image
                   src="/logos/LOGO_WHITE.svg"
                   alt="Logo Observatorio de Sostenibilidad"
-                  width={scrolled ? 150 : 180}
-                  height={scrolled ? 50 : 60}
+                  width={180}
+                  height={60}
                   priority
                   style={{
                     objectFit: 'contain',
+                    width: mounted && scrolled ? '150px' : '180px',
+                    height: 'auto',
                     transition: 'all 0.3s ease-in-out',
                   }}
                 />
