@@ -120,7 +120,7 @@ const HomePage: React.FC = () => {
       </Box>
 
       {/* Sección de Impacto con Contadores */}
-      <ImpactSection />
+      {/* <ImpactSection /> */}
 
       {/* Sección de Temas Clave con fondo texturizado */}
       <Box
