@@ -65,13 +65,29 @@ const ContactForm: React.FC = () => {
       return;
     }
 
-    // Simulación de envío (aquí iría la lógica real de envío)
+    setSubmitStatus('idle'); // Reset status
+
     try {
-      // await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
-      setSubmitStatus('success');
-      setFormData({ nombre: '', correo: '', mensaje: '' });
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ nombre: '', correo: '', mensaje: '' });
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      } else {
+        setSubmitStatus('error');
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      }
     } catch (error) {
+      console.error('Error al enviar el formulario:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 5000);
     }
@@ -79,8 +95,8 @@ const ContactForm: React.FC = () => {
 
   return (
     <Paper elevation={3} sx={{ p: 4, maxWidth: 600, mx: 'auto' }}>
-      <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-        [LOREM IPSUM] Formulario de Contacto
+      <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3, fontWeight: 600, fontFamily: 'Montserrat, sans-serif' }}>
+        Formulario de Contacto
       </Typography>
 
       {submitStatus === 'success' && (
@@ -133,7 +149,7 @@ const ContactForm: React.FC = () => {
           multiline
           rows={6}
           variant="outlined"
-          placeholder="[LOREM IPSUM] Escribe tu mensaje aquí..."
+          placeholder="Escribe tu mensaje aquí..."
         />
 
         <Button
