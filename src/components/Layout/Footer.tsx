@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
       <Container maxWidth="xl">
         <Grid container spacing={4}>
           {/* Logo y Descripción */}
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <Box sx={{ mb: 2 }}>
               <Image
                 src="/logos/LOGO_COLOR.svg"
@@ -60,6 +60,40 @@ const Footer: React.FC = () => {
               </MuiLink>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
                 <LinkedIn />
+              </MuiLink>
+            </Box>
+          </Grid>
+
+          {/* Logo FUNDEPOS */}
+          <Grid item xs={12} md={3}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: { xs: 'flex-start', md: 'center' },
+                height: '100%',
+                pt: { xs: 0, md: 2 },
+              }}
+            >
+              <MuiLink
+                href="https://fundepos.ac.cr"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: 'block',
+                  transition: 'opacity 0.3s ease',
+                  '&:hover': {
+                    opacity: 0.8,
+                  },
+                }}
+              >
+                <Image
+                  src="/logos/fundepos-blanco.png"
+                  alt="Universidad FUNDEPOS"
+                  width={200}
+                  height={80}
+                  style={{ objectFit: 'contain' }}
+                />
               </MuiLink>
             </Box>
           </Grid>
@@ -106,7 +140,7 @@ const Footer: React.FC = () => {
           </Grid>
 
           {/* Información Legal */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={2}>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif' }}>
               Información Legal
             </Typography>
@@ -136,7 +170,7 @@ const Footer: React.FC = () => {
           </Grid>
 
           {/* Contacto */}
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={2}>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif' }}>
               Contacto
             </Typography>
