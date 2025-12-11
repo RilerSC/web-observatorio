@@ -188,10 +188,10 @@ const NosotrosPage: React.FC = () => {
       ],
     },
     {
-      nombre: 'Universidad de California',
-      logo: '/logos/Universidad de California.jpeg',
+      nombre: 'Florida Universitària',
+      logo: '/logos/Logo-Florida.jpg',
       descripcion: 'Institución académica de prestigio internacional',
-      url: 'https://www.universityofcalifornia.edu/',
+      url: 'https://www.floridauniversitaria.es',
     },
     {
       nombre: 'Naturally Digital',
