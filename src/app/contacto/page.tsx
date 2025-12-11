@@ -105,9 +105,6 @@ const ContactoPage: React.FC = () => {
                     Dirección
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#2d2d2d', fontFamily: 'Montserrat, sans-serif' }}>
-                    Dirección institucional del Observatorio de Sostenibilidad
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#999999', mt: 0.5 }}>
                   Torre Mercedes, Piso 2, San José, San Bosco, 10105
                   </Typography>
                 </Box>

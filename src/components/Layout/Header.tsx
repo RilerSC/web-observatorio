@@ -76,7 +76,7 @@ const Header: React.FC = () => {
       <AppBar
         position="sticky"
         sx={{
-          backgroundColor: scrolled ? 'rgba(10, 22, 35, 0.98)' : '#0a1623',
+          backgroundColor: scrolled ? 'rgba(6, 64, 43, 0.98)' : '#06402B',
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
           boxShadow: scrolled ? 4 : 2,
           transition: 'all 0.3s ease-in-out',

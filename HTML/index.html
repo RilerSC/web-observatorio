@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatorio de Sostenibilidad - FUNDEPOS</title>
+    <meta name="description" content="Observatorio de Sostenibilidad - Información y recursos sobre sostenibilidad">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Prevenir que se muestre la barra de direcciones del iframe -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        #vercel-frame {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        
+        /* Loading spinner mientras carga */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #06402B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #ffffff;
+            margin-top: 20px;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+        }
+        
+        .loading.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Cargando Observatorio de Sostenibilidad...</div>
+    </div>
+    
+    <!-- Iframe que carga el contenido de Vercel -->
+    <iframe 
+        id="vercel-frame"
+        src="https://web-observatorio.vercel.app"
+        title="Observatorio de Sostenibilidad"
+        allow="fullscreen"
+        allowfullscreen
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+        onload="hideLoading()"
+    ></iframe>
+    
+    <script>
+        // Ocultar el loading cuando el iframe cargue
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            if (loading) {
+                setTimeout(() => {
+                    loading.classList.add('hidden');
+                }, 500);
+            }
+        }
+        
+        // Manejar errores de carga
+        window.addEventListener('error', function(e) {
+            console.error('Error loading iframe:', e);
+        });
+        
+        // Prevenir que se muestre información del iframe en la consola
+        window.addEventListener('message', function(event) {
+            // Solo aceptar mensajes del mismo origen (Vercel)
+            if (event.origin === 'https://web-observatorio.vercel.app') {
+                // Manejar mensajes si es necesario
+            }
+        });
+        
+        // Forzar que el iframe ocupe todo el espacio
+        window.addEventListener('resize', function() {
+            const frame = document.getElementById('vercel-frame');
+            if (frame) {
+                frame.style.width = '100%';
+                frame.style.height = '100vh';
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -209,19 +209,19 @@ const Footer: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Email sx={{ fontSize: 20, color: '#00bed6' }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                  contacto@observatorio.edu
+                lgomez@fundepos.ac.cr
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Phone sx={{ fontSize: 20, color: '#00bed6' }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                  +57 (1) 123 4567
+                +506 4001 9254 
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
                 <LocationOn sx={{ fontSize: 20, color: '#00bed6', mt: 0.5 }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                  Dirección institucional del Observatorio de Sostenibilidad
+                Torre Mercedes, Piso 2, San José, San Bosco, 10105
                 </Typography>
               </Box>
             </Box>
