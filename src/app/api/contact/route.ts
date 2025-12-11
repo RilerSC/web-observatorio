@@ -36,22 +36,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Configurar el transportador de correo optimizado para Vercel/serverless
+    // Configurar el transportador usando el servicio "gmail" de nodemailer
+    // Esta configuración es más confiable para entornos serverless
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false, // true para 465, false para otros puertos
+      service: 'gmail',
       auth: {
         user: process.env.SMTP_EMAIL,
         pass: process.env.SMTP_PASSWORD,
       },
-      tls: {
-        rejectUnauthorized: false,
-      },
-      // Configuración optimizada para serverless (sin pool para evitar timeouts)
-      connectionTimeout: 10000, // 10 segundos
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
     });
 
     // Sanitizar el nombre para evitar inyección
@@ -147,8 +139,12 @@ Este mensaje fue enviado desde el formulario de contacto del Observatorio de Sos
     return NextResponse.json(
       { 
         error: errorMessage,
-        // En desarrollo, incluir más detalles
-        ...(process.env.NODE_ENV === 'development' && { details: errorDetails })
+        // Incluir detalles para debugging (temporalmente en producción)
+        debug: {
+          code: error?.code,
+          message: error?.message,
+          command: error?.command,
+        }
       },
       { status: 500 }
     );
