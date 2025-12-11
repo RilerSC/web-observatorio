@@ -27,11 +27,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Debug: verificar qué variables están disponibles
+    const envDebug = {
+      SMTP_EMAIL_exists: !!process.env.SMTP_EMAIL,
+      SMTP_PASSWORD_exists: !!process.env.SMTP_PASSWORD,
+      SMTP_EMAIL_length: process.env.SMTP_EMAIL?.length || 0,
+      SMTP_PASSWORD_length: process.env.SMTP_PASSWORD?.length || 0,
+      NODE_ENV: process.env.NODE_ENV,
+    };
+
     // Verificar que las variables de entorno estén configuradas
     if (!process.env.SMTP_EMAIL || !process.env.SMTP_PASSWORD) {
-      console.error('Variables de entorno SMTP no configuradas');
+      console.error('Variables de entorno SMTP no configuradas:', envDebug);
       return NextResponse.json(
-        { error: 'Error de configuración del servidor. Por favor, contacta al administrador.' },
+        { 
+          error: 'Error de configuración del servidor. Por favor, contacta al administrador.',
+          debug: envDebug
+        },
         { status: 500 }
       );
     }
