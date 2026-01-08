@@ -17,6 +17,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartLine,
@@ -60,7 +61,7 @@ const EjesTematicosPage: React.FC = () => {
         { numero: 17, nombre: 'Alianzas para Lograr los Objetivos', icono: faChartLine },
       ],
       color: '#07a7ff',
-      imagen: '/img/1.jpg',
+      imagen: '/img/1.webp',
       iconoPrincipal: faChartLine,
     },
     {
@@ -81,7 +82,7 @@ const EjesTematicosPage: React.FC = () => {
         { numero: 12, nombre: 'Producción y Consumo Responsables', icono: faRecycle },
       ],
       color: '#6abf4b',
-      imagen: '/img/2.jpg',
+      imagen: '/img/2.webp',
       iconoPrincipal: faRecycle,
     },
     {
@@ -102,7 +103,7 @@ const EjesTematicosPage: React.FC = () => {
         { numero: 11, nombre: 'Ciudades y Comunidades Sostenibles', icono: faCity },
       ],
       color: '#00bed6',
-      imagen: '/img/3.jpg',
+      imagen: '/img/3.webp',
       iconoPrincipal: faPalette,
     },
     {
@@ -125,7 +126,7 @@ const EjesTematicosPage: React.FC = () => {
         { numero: 15, nombre: 'Vida de Ecosistemas Terrestres', icono: faTree },
       ],
       color: '#009155',
-      imagen: '/img/4.jpg',
+      imagen: '/img/4.webp',
       iconoPrincipal: faCity,
     },
   ];
@@ -183,19 +184,16 @@ const EjesTematicosPage: React.FC = () => {
                       borderRadius: { xs: '8px 8px 0 0', md: isEven ? '8px 0 0 8px' : '0 8px 8px 0' },
                     }}
                   >
-                    <Box
-                      component="img"
+                    <Image
                       src={eje.imagen}
                       alt={eje.titulo}
-                      sx={{
-                        width: '100%',
-                        height: '100%',
+                      fill
+                      style={{
                         objectFit: 'cover',
-                        transition: 'transform 0.5s ease',
-                        '&:hover': {
-                          transform: 'scale(1.05)',
-                        },
                       }}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      quality={85}
+                      priority={index === 0}
                     />
                     {/* Overlay con gradiente */}
                     <Box

@@ -19,6 +19,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLightbulb,
@@ -865,15 +866,15 @@ const NosotrosPage: React.FC = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Box
-                  component="img"
+                <Image
                   src={equipo[openModalEquipo].foto}
                   alt={equipo[openModalEquipo].nombre}
-                  sx={{
-                    width: '100%',
-                    height: '100%',
+                  fill
+                  style={{
                     objectFit: 'contain',
                   }}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  quality={90}
                 />
               </Box>
 
@@ -1011,6 +1012,7 @@ const NosotrosPage: React.FC = () => {
                 >
                   <Box
                     sx={{
+                      position: 'relative',
                       width: '100%',
                       height: '100px',
                       display: 'flex',
@@ -1022,15 +1024,15 @@ const NosotrosPage: React.FC = () => {
                       borderRadius: alianza.nombre === 'Red GCE' ? '4px' : '0',
                     }}
                   >
-                    <Box
-                      component="img"
+                    <Image
                       src={alianza.logo}
                       alt={alianza.nombre}
-                      sx={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
+                      fill
+                      style={{
                         objectFit: 'contain',
                       }}
+                      sizes="240px"
+                      quality={90}
                     />
                   </Box>
                   <Typography
@@ -1149,24 +1151,34 @@ const NosotrosPage: React.FC = () => {
                 {/* Logo */}
                 <Box
                   sx={{
+                    position: 'relative',
                     display: 'flex',
                     justifyContent: 'center',
                     mb: 4,
+                    height: '100px',
                   }}
                 >
                   <Box
-                    component="img"
-                    src={alianzas[openModalAlianza].logo}
-                    alt={alianzas[openModalAlianza].nombre}
                     sx={{
-                      maxHeight: '100px',
-                      maxWidth: '200px',
-                      objectFit: 'contain',
+                      position: 'relative',
+                      width: '200px',
+                      height: '100px',
                       backgroundColor: alianzas[openModalAlianza].nombre === 'Red GCE' ? '#FFFFFF' : 'transparent',
                       padding: alianzas[openModalAlianza].nombre === 'Red GCE' ? '12px' : '0',
                       borderRadius: alianzas[openModalAlianza].nombre === 'Red GCE' ? '4px' : '0',
                     }}
-                  />
+                  >
+                    <Image
+                      src={alianzas[openModalAlianza].logo}
+                      alt={alianzas[openModalAlianza].nombre}
+                      fill
+                      style={{
+                        objectFit: 'contain',
+                      }}
+                      sizes="200px"
+                      quality={90}
+                    />
+                  </Box>
                 </Box>
 
                 {/* Texto completo */}

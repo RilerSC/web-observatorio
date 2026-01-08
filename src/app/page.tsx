@@ -4,6 +4,7 @@ import React from 'react';
 import { Container, Typography, Box, Grid, Card, CardContent, CardMedia, Button } from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
 import Link from 'next/link';
+import Image from 'next/image';
 import VideoSlider from '@/components/UI/VideoSlider';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/UI/ScrollReveal';
 import ImpactSection from '@/components/UI/ImpactSection';
@@ -22,13 +23,13 @@ const HomePage: React.FC = () => {
     {
       titulo: 'Ejes Temáticos',
       descripcion: 'El Observatorio de Sostenibilidad de Costa Rica define su trabajo en cuatro ejes estratégicos: Modelos de negocio de impacto positivo, Nuevos modelos económicos, Economía Naranja y Cultura, y Estrategias de restauración eco-social y sostenibilidad urbana.',
-      imagen: '/img/1.jpg',
+      imagen: '/img/1.webp',
       enlace: '/ejes-tematicos',
     },
     {
       titulo: 'Noticias',
       descripcion: 'Mantente informado con las últimas noticias, investigaciones y actualidad sobre sostenibilidad, desarrollo sostenible e innovación. Accede a artículos, reportes y análisis que reflejan las tendencias y avances en materia de sostenibilidad en Costa Rica y la región.',
-      imagen: '/img/2.jpg',
+      imagen: '/img/2.webp',
       enlace: '/noticias',
     },
     // {
@@ -273,15 +274,18 @@ const HomePage: React.FC = () => {
                     boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)',
                   }}
                 >
-                  <Box
-                    component="img"
-                    src="/img/4.jpg"
+                  <Image
+                    src="/img/4.webp"
                     alt="Observatorio de Sostenibilidad"
-                    sx={{
+                    width={1200}
+                    height={800}
+                    style={{
                       width: '100%',
                       height: 'auto',
                       display: 'block',
                     }}
+                    quality={85}
+                    priority={false}
                   />
                   {/* Overlay decorativo */}
                   <Box

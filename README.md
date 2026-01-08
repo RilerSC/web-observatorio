@@ -68,6 +68,29 @@ npm run dev
 - Formulario de contacto funcional
 - Integración con Material UI
 - Estilos con Tailwind CSS
+- **Assets optimizados:** Imágenes WebP + Videos comprimidos (-93.5%)
+- **Performance mejorado:** LCP <2.5s
+
+## 📊 Optimización de Performance
+
+Este proyecto ha sido optimizado para máxima velocidad y eficiencia:
+
+- ✅ **Imágenes optimizadas a WebP** (-83% de peso)
+- ✅ **Videos comprimidos con FFmpeg** (-81% de peso)
+- ✅ **next/image con lazy loading** (carga bajo demanda)
+- ✅ **Assets reducidos:** 852 MB → 55 MB (-93.5%)
+
+**Ver detalles completos:**
+- [AUDITORIA_TECNICA.md](./AUDITORIA_TECNICA.md) - Auditoría técnica detallada
+- [RESUMEN_OPTIMIZACION.md](./RESUMEN_OPTIMIZACION.md) - Resumen ejecutivo de optimización
+
+### Script de Optimización de Imágenes
+
+Para optimizar imágenes futuras:
+```bash
+node scripts/optimize-images.js
+```
+
 
 
 

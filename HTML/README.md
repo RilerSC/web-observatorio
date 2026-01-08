@@ -40,3 +40,4 @@ Para una solución más profesional y sin limitaciones, se recomienda configurar
 
 Si necesitas ayuda con la configuración del proxy reverso o tienes problemas con el iframe, contacta al administrador del servidor de fundepos.ac.cr.
 
+
