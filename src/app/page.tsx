@@ -1,16 +1,15 @@
-'use client';
-
 import React from 'react';
-import { Container, Typography, Box, Grid, Card, CardContent, CardMedia, Button } from '@mui/material';
-import { ArrowForward } from '@mui/icons-material';
-import Link from 'next/link';
+import { Container, Typography, Box, Grid, CardContent, CardMedia } from '@mui/material';
+import { MdArrowForward } from 'react-icons/md';
 import Image from 'next/image';
 import VideoSlider from '@/components/UI/VideoSlider';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/UI/ScrollReveal';
 import ImpactSection from '@/components/UI/ImpactSection';
-import { motion } from 'framer-motion';
+import AnimatedCard from '@/components/UI/AnimatedCard';
+import AnimatedBox from '@/components/UI/AnimatedBox';
+import LinkButton from '@/components/UI/LinkButton';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   // Videos del slider principal
   const heroVideos = [
     '/video/v2.mp4',  // 3.4MB
@@ -76,7 +75,7 @@ const HomePage: React.FC = () => {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <ScrollReveal>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
-              <motion.div
+              <AnimatedBox
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -94,7 +93,7 @@ const HomePage: React.FC = () => {
                 >
                   BIENVENIDOS
                 </Typography>
-              </motion.div>
+              </AnimatedBox>
               <Typography
                 variant="h3"
                 component="h1"
@@ -165,10 +164,7 @@ const HomePage: React.FC = () => {
               {temasClave.map((tema, index) => (
                 <Grid item xs={12} md={6} key={index} sx={{ maxWidth: { md: '500px' } }}>
                   <StaggerItem>
-                    <Card
-                      component={motion.div}
-                      whileHover={{ y: -12, scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
+                    <AnimatedCard
                       sx={{
                         height: '100%',
                         display: 'flex',
@@ -219,11 +215,10 @@ const HomePage: React.FC = () => {
                         >
                           {tema.descripcion}
                         </Typography>
-                        <Button
-                          component={Link}
+                        <LinkButton
                           href={tema.enlace}
                           variant="contained"
-                          endIcon={<ArrowForward />}
+                          endIcon={<MdArrowForward />}
                           sx={{
                             mt: 'auto',
                             backgroundColor: '#00bed6',
@@ -239,9 +234,9 @@ const HomePage: React.FC = () => {
                           }}
                         >
                           Ver más
-                        </Button>
+                        </LinkButton>
                       </CardContent>
-                    </Card>
+                    </AnimatedCard>
                   </StaggerItem>
                 </Grid>
               ))}
@@ -263,8 +258,7 @@ const HomePage: React.FC = () => {
           <Grid container spacing={6} alignItems="center">
             <Grid item xs={12} md={6}>
               <ScrollReveal direction="left">
-                <Box
-                  component={motion.div}
+                <AnimatedBox
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                   sx={{
@@ -325,7 +319,7 @@ const HomePage: React.FC = () => {
                       Costa Rica • Centroamérica
                     </Typography>
                   </Box>
-                </Box>
+                </AnimatedBox>
               </ScrollReveal>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -354,12 +348,11 @@ const HomePage: React.FC = () => {
                     Donde la sostenibilidad se convierte en estrategia. Investigamos, conectamos y generamos soluciones que impulsan a las organizaciones hacia la sostenibilidad del futuro.
                   </Typography>
                   <Box sx={{ mt: 4 }}>
-                    <Button
-                      component={Link}
+                    <LinkButton
                       href="/nosotros"
                       variant="outlined"
-                      size="large"
                       sx={{
+                        fontSize: '1.125rem',
                         borderColor: '#6abf4b',
                         borderWidth: 2,
                         color: '#6abf4b',
@@ -378,7 +371,7 @@ const HomePage: React.FC = () => {
                       }}
                     >
                       Conoce más sobre nosotros
-                    </Button>
+                    </LinkButton>
                   </Box>
                 </Box>
               </ScrollReveal>

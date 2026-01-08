@@ -6,11 +6,11 @@ import { motion } from 'framer-motion';
 import { AnimatedCounter } from './AnimatedCounter';
 import { ScrollReveal } from './ScrollReveal';
 import {
-  Business,
-  Public,
-  TrendingUp,
-  Groups,
-} from '@mui/icons-material';
+  MdBusiness,
+  MdPublic,
+  MdTrendingUp,
+  MdGroups,
+} from 'react-icons/md';
 
 const impactData = [
   {
@@ -19,7 +19,7 @@ const impactData = [
     title: 'Organizaciones',
     subtitle: 'analizadas en la región',
     color: '#00bed6',
-    icon: <Business />,
+    icon: <MdBusiness size={48} />,
   },
   {
     value: 7,
@@ -27,7 +27,7 @@ const impactData = [
     title: 'Países',
     subtitle: 'con presencia activa',
     color: '#6abf4b',
-    icon: <Public />,
+    icon: <MdPublic size={48} />,
   },
   {
     value: 500,
@@ -35,7 +35,7 @@ const impactData = [
     title: 'Indicadores',
     subtitle: 'de sostenibilidad monitoreados',
     color: '#00bed6',
-    icon: <TrendingUp />,
+    icon: <MdTrendingUp size={48} />,
   },
   {
     value: 25,
@@ -43,7 +43,7 @@ const impactData = [
     title: 'Alianzas',
     subtitle: 'estratégicas activas',
     color: '#6abf4b',
-    icon: <Groups />,
+    icon: <MdGroups size={48} />,
   },
 ];
 

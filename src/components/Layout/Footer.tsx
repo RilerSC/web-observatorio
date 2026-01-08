@@ -10,18 +10,24 @@ import {
   Divider,
 } from '@mui/material';
 import {
-  Facebook,
-  Twitter,
-  Instagram,
-  LinkedIn,
-  Email,
-  Phone,
-  LocationOn,
-} from '@mui/icons-material';
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+} from 'react-icons/fa';
+import {
+  MdEmail,
+  MdPhone,
+  MdLocationOn,
+} from 'react-icons/md';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Footer: React.FC = () => {
+  // Año estático para evitar errores de PPR con new Date()
+  // Actualizar manualmente cada año
+  const currentYear = 2026;
+  
   return (
     <Box
       component="footer"
@@ -82,16 +88,16 @@ const Footer: React.FC = () => {
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
-                <Facebook />
+                <FaFacebook />
               </MuiLink>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
-                <Twitter />
+                <FaTwitter />
               </MuiLink>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
-                <Instagram />
+                <FaInstagram />
               </MuiLink>
               <MuiLink href="#" sx={{ color: '#FFFFFF', '&:hover': { color: '#00bed6' } }}>
-                <LinkedIn />
+                <FaLinkedin />
               </MuiLink>
             </Box>
           </Grid>
@@ -207,19 +213,19 @@ const Footer: React.FC = () => {
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Email sx={{ fontSize: 20, color: '#00bed6' }} />
+                <MdEmail style={{ fontSize: 20, color: '#00bed6' }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
                 lgomez@fundepos.ac.cr
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Phone sx={{ fontSize: 20, color: '#00bed6' }} />
+                <MdPhone style={{ fontSize: 20, color: '#00bed6' }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
                 +506 4001 9254 
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                <LocationOn sx={{ fontSize: 20, color: '#00bed6', mt: 0.5 }} />
+                <MdLocationOn style={{ fontSize: 20, color: '#00bed6', marginTop: 4 }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
                 Torre Mercedes, Piso 2, San José, San Bosco, 10105
                 </Typography>
@@ -233,7 +239,7 @@ const Footer: React.FC = () => {
         {/* Copyright */}
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-            © {new Date().getFullYear()} Observatorio de Sostenibilidad. Todos los derechos
+            © {currentYear} Observatorio de Sostenibilidad. Todos los derechos
             reservados.
           </Typography>
         </Box>
@@ -243,4 +249,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-

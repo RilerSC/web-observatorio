@@ -9,7 +9,7 @@ import {
   Paper,
   Divider,
 } from '@mui/material';
-import { Email, Phone, LocationOn, Schedule } from '@mui/icons-material';
+import { MdEmail, MdPhone, MdLocationOn, MdSchedule } from 'react-icons/md';
 import ContactForm from '@/components/UI/ContactForm';
 
 const ContactoPage: React.FC = () => {
@@ -45,12 +45,12 @@ const ContactoPage: React.FC = () => {
 
             <Paper elevation={2} sx={{ p: 4, mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 3 }}>
-                <Email
-                  sx={{
+                <MdEmail
+                  style={{
                     fontSize: 28,
                     color: '#00bed6',
-                    mr: 2,
-                    mt: 0.5,
+                    marginRight: 16,
+                    marginTop: 4,
                   }}
                 />
                 <Box>
@@ -69,12 +69,12 @@ const ContactoPage: React.FC = () => {
 
             <Paper elevation={2} sx={{ p: 4, mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 3 }}>
-                <Phone
-                  sx={{
+                <MdPhone
+                  style={{
                     fontSize: 28,
                     color: '#00bed6',
-                    mr: 2,
-                    mt: 0.5,
+                    marginRight: 16,
+                    marginTop: 4,
                   }}
                 />
                 <Box>
@@ -92,12 +92,12 @@ const ContactoPage: React.FC = () => {
 
             <Paper elevation={2} sx={{ p: 4, mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <LocationOn
-                  sx={{
+                <MdLocationOn
+                  style={{
                     fontSize: 28,
                     color: '#00bed6',
-                    mr: 2,
-                    mt: 0.5,
+                    marginRight: 16,
+                    marginTop: 4,
                   }}
                 />
                 <Box>
@@ -113,12 +113,12 @@ const ContactoPage: React.FC = () => {
 
             <Paper elevation={2} sx={{ p: 4 }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Schedule
-                  sx={{
+                <MdSchedule
+                  style={{
                     fontSize: 28,
                     color: '#00bed6',
-                    mr: 2,
-                    mt: 0.5,
+                    marginRight: 16,
+                    marginTop: 4,
                   }}
                 />
                 <Box>

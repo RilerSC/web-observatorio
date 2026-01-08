@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 // Configuración para Vercel serverless
-export const runtime = 'nodejs';
 export const maxDuration = 30; // 30 segundos máximo
 
 export async function POST(request: NextRequest) {

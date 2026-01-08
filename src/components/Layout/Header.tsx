@@ -17,7 +17,7 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { MdMenu } from 'react-icons/md';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                   edge="start"
                   onClick={handleDrawerToggle}
                 >
-                  <MenuIcon />
+                  <MdMenu />
                 </IconButton>
               </>
             ) : (

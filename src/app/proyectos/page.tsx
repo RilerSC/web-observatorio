@@ -11,13 +11,15 @@ import {
   Chip,
   Button,
 } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PeopleIcon from '@mui/icons-material/People';
-import NatureIcon from '@mui/icons-material/Nature';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import LanguageIcon from '@mui/icons-material/Language';
+import { 
+  MdArrowForward, 
+  MdCalendarToday, 
+  MdLocationOn, 
+  MdPeople, 
+  MdNature, 
+  MdTrendingUp, 
+  MdLanguage 
+} from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/UI/ScrollReveal';
@@ -99,11 +101,11 @@ const proyectos = [
 ];
 
 const categorias = [
-  { id: 'todos', label: 'Todos', icon: <LanguageIcon /> },
-  { id: 'investigacion', label: 'Investigación', icon: <TrendingUpIcon /> },
-  { id: 'consultoria', label: 'Consultoría', icon: <PeopleIcon /> },
-  { id: 'colaboracion', label: 'Colaboración', icon: <NatureIcon /> },
-  { id: 'tecnologia', label: 'Tecnología', icon: <TrendingUpIcon /> },
+  { id: 'todos', label: 'Todos', icon: <MdLanguage /> },
+  { id: 'investigacion', label: 'Investigación', icon: <MdTrendingUp /> },
+  { id: 'consultoria', label: 'Consultoría', icon: <MdPeople /> },
+  { id: 'colaboracion', label: 'Colaboración', icon: <MdNature /> },
+  { id: 'tecnologia', label: 'Tecnología', icon: <MdTrendingUp /> },
 ];
 
 const estadoColors: { [key: string]: string } = {
@@ -278,7 +280,7 @@ const ProyectosPage: React.FC = () => {
               >
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                   <Chip
-                    icon={<TrendingUpIcon sx={{ color: '#00bed6 !important' }} />}
+                    icon={<MdTrendingUp style={{ color: '#00bed6' }} />}
                     label="6 Proyectos activos"
                     sx={{
                       backgroundColor: 'rgba(0, 190, 214, 0.15)',
@@ -289,7 +291,7 @@ const ProyectosPage: React.FC = () => {
                     }}
                   />
                   <Chip
-                    icon={<LanguageIcon sx={{ color: '#6abf4b !important' }} />}
+                    icon={<MdLanguage style={{ color: '#6abf4b' }} />}
                     label="7 Países"
                     sx={{
                       backgroundColor: 'rgba(106, 191, 75, 0.15)',
@@ -300,7 +302,7 @@ const ProyectosPage: React.FC = () => {
                     }}
                   />
                   <Chip
-                    icon={<PeopleIcon sx={{ color: '#07a7ff !important' }} />}
+                    icon={<MdPeople style={{ color: '#07a7ff' }} />}
                     label="100+ Organizaciones"
                     sx={{
                       backgroundColor: 'rgba(7, 167, 255, 0.15)',
@@ -508,7 +510,7 @@ const ProyectosPage: React.FC = () => {
                           {/* Info adicional */}
                           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 3 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <CalendarTodayIcon sx={{ fontSize: 18, color: '#00bed6' }} />
+                              <MdCalendarToday style={{ fontSize: 18, color: '#00bed6' }} />
                               <Typography
                                 variant="caption"
                                 sx={{ fontFamily: 'Montserrat, sans-serif', color: '#666' }}
@@ -517,7 +519,7 @@ const ProyectosPage: React.FC = () => {
                               </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <LocationOnIcon sx={{ fontSize: 18, color: '#6abf4b' }} />
+                              <MdLocationOn style={{ fontSize: 18, color: '#6abf4b' }} />
                               <Typography
                                 variant="caption"
                                 sx={{ fontFamily: 'Montserrat, sans-serif', color: '#666' }}
@@ -526,7 +528,7 @@ const ProyectosPage: React.FC = () => {
                               </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <PeopleIcon sx={{ fontSize: 18, color: '#07a7ff' }} />
+                              <MdPeople style={{ fontSize: 18, color: '#07a7ff' }} />
                               <Typography
                                 variant="caption"
                                 sx={{ fontFamily: 'Montserrat, sans-serif', color: '#666' }}
@@ -538,7 +540,7 @@ const ProyectosPage: React.FC = () => {
 
                           <Button
                             variant="text"
-                            endIcon={<ArrowForwardIcon />}
+                            endIcon={<MdArrowForward />}
                             sx={{
                               fontFamily: 'Montserrat, sans-serif',
                               fontWeight: 600,

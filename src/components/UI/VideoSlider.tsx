@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, IconButton, Typography, CircularProgress } from '@mui/material';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import Image from 'next/image';
 
 interface MediaSliderProps {
@@ -414,7 +414,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
           },
         }}
       >
-        <ChevronLeft fontSize="large" />
+        <MdChevronLeft size={32} />
       </IconButton>
 
       <IconButton
@@ -434,7 +434,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
           },
         }}
       >
-        <ChevronRight fontSize="large" />
+        <MdChevronRight size={32} />
       </IconButton>
 
       {/* Dots Indicator */}

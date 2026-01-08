@@ -9,7 +9,7 @@ import {
   Paper,
   Alert,
 } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import { MdSend } from 'react-icons/md';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -156,7 +156,7 @@ const ContactForm: React.FC = () => {
           type="submit"
           variant="contained"
           size="large"
-          endIcon={<SendIcon />}
+          endIcon={<MdSend />}
             sx={{
               mt: 2,
               py: 1.5,

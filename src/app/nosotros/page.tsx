@@ -18,21 +18,22 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { MdClose } from 'react-icons/md';
+import { 
+  FaLightbulb, 
+  FaHandshake, 
+  FaShieldAlt, 
+  FaBalanceScale, 
+  FaFlask, 
+  FaLeaf, 
+  FaEye 
+} from 'react-icons/fa';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faLightbulb,
-  faHandshake,
-  faShieldHalved,
-  faScaleBalanced,
-  faFlask,
-  faLeaf,
-  faEye,
-} from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import TeamMemberCard from '@/components/Team/TeamMemberCard';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/UI/ScrollReveal';
+import equipoData from '@/data/equipo.json';
+import alianzasData from '@/data/alianzas.json';
 
 const NosotrosPage: React.FC = () => {
   const [openModalEquipo, setOpenModalEquipo] = useState<number | null>(null);
@@ -59,152 +60,55 @@ const NosotrosPage: React.FC = () => {
       titulo: 'Transparencia',
       descripcion:
         'Compromiso con la honestidad y la claridad en todas nuestras investigaciones, comunicaciones y decisiones.',
-      icono: faEye,
+      icono: FaEye,
       color: '#00bed6',
     },
     {
       titulo: 'Innovación',
       descripcion:
         'Fomento de la creatividad y el desarrollo de soluciones novedosas para los desafíos asociados al cumplimiento de los objetivos de desarrollo sostenible.',
-      icono: faLightbulb,
+      icono: FaLightbulb,
       color: '#6abf4b',
     },
     {
       titulo: 'Colaboración',
       descripcion:
         'Promoción del trabajo conjunto entre comunidades, sectores públicos y privados y organizaciones internacionales.',
-      icono: faHandshake,
+      icono: FaHandshake,
       color: '#00bed6',
     },
     {
       titulo: 'Responsabilidad',
       descripcion:
         'Compromiso con la responsabilidad social, económica y ambiental en todas nuestras acciones y recomendaciones.',
-      icono: faShieldHalved,
+      icono: FaShieldAlt,
       color: '#6abf4b',
     },
     {
       titulo: 'Equidad',
       descripcion:
         'Asegurar que nuestras iniciativas y propuestas beneficien equitativamente a todas las partes, especialmente a las comunidades más vulnerables.',
-      icono: faScaleBalanced,
+      icono: FaBalanceScale,
       color: '#00bed6',
     },
     {
       titulo: 'Ciencia y evidencia',
       descripcion:
         'Basar nuestras decisiones y políticas en datos científicos sólidos y en evidencia comprobada.',
-      icono: faFlask,
+      icono: FaFlask,
       color: '#6abf4b',
     },
     {
       titulo: 'Resiliencia',
       descripcion:
         'Promoción de prácticas que fortalezcan la capacidad de adaptación y recuperación ante cambios y desafíos futuros relacionados a la sostenibilidad.',
-      icono: faLeaf,
+      icono: FaLeaf,
       color: '#00bed6',
     },
   ];
 
-  const equipo = [
-    {
-      nombre: 'Jorge Arturo Campos Montero',
-      cargo: 'Director del Observatorio de la Sostenibilidad de FUNDEPOS y Catedrático por la UCR',
-      bio: 'Reconocido por su extensa trayectoria de más de cuarenta años dedicada a la sostenibilidad, la gestión ambiental y el desarrollo sostenible en el ámbito académico y profesional.',
-      bioCompleta: [
-        'Jorge Arturo Campos Montero es catedrático por la Universidad de Costa Rica, reconocido por su extensa trayectoria dedicada a la sostenibilidad, la gestión ambiental y el desarrollo sostenible.',
-        'Durante más de cuarenta años, ha dirigido iniciativas en el ámbito académico y profesional, tales como la coordinación del Programa de Estudios Ambientales en la Escuela de Biología de la Universidad de Costa Rica, la docencia a estudiantes internacionales de Biología Tropical y Desarrollo Sostenible en la Universidad Veritas, y la dirección de Iniciativas de Sostenibilidad e Investigación en la Universidad FUNDEPOS. Además, ha ejerció como presidente de INCOPESCA y se ha destacado como consultor ambiental y social para organizaciones multilaterales, privadas y gubernamentales.',
-        'En el campo educativo, Campos Montero obtuvo la Maestría en Oceanografía por la University of Rhode Island, Estados Unidos, realizó estudios en el International Ocean Institute de Nova Scotia, Canadá, centrados en el manejo de zonas económicas exclusivas y oceanografía, y alcanzó el grado de Bachiller en Biología en la Universidad de Costa Rica. Su formación también incluye estudios de pregrado en la Universidad de Oregón, Estados Unidos.',
-        'Ha liderado más de cien proyectos de consultoría ambiental en Costa Rica, Honduras, El Salvador, Nicaragua, Panamá y Colombia, cubriendo evaluaciones de impacto, biodiversidad, manejo de áreas protegidas y restauración de ecosistemas. Actualmente, dirige el Observatorio de la Sostenibilidad de FUNDEPOS y co-coordina la Maestría en Sostenibilidad e Innovación en esa misma universidad. Ha sido consultor para el Banco Interamericano de Desarrollo y presidió el Instituto de Pesca y Acuicultura (INCOPESCA) y fue parte de su Junta Directiva.',
-        'A lo largo de su carrera científica, ha participado en 21 proyectos de investigación y cuenta con más de 30 publicaciones en revistas arbitradas, nacionales e internacionales. En el ámbito docente, ha diseñado e implementado programas académicos enfocados en sostenibilidad, biodiversidad, biología tropical, manejo de recursos marinos y pesqueros, biología general, responsabilidad ambiental y cambio climático. Ha sido facilitador y conferencista sobre cambio climático, biodiversidad y desarrollo sostenible, participando activamente a nivel nacional e internacional.',
-      ],
-      foto: '/team/Jorge.jpeg',
-    },
-    {
-      nombre: 'Lourdes Gómez',
-      cargo: 'Máster en Sostenibilidad, cofundadora de Sistema B Centroamérica y Caribe',
-      bio: 'Amplia carrera en mercadeo estratégico, comunicación corporativa y sostenibilidad. Se enfoca en movilizar profesionales y equipos mediante pensamiento sistémico.',
-      bioCompleta: [
-        'Lourdes Gómez es Máster en Sostenibilidad e Innovación, con una amplia carrera en mercadeo estratégico, comunicación corporativa y sostenibilidad. Como cofundadora de Tactik Global Marketing Services, ha liderado proyectos regionales que integran estrategia, creatividad y visión con propósito, impulsando a organizaciones a evolucionar hacia modelos de crecimiento más competitivos, éticos y orientados a resultados.',
-        'Cofundadora de Sistema B Centroamérica y Caribe, especialista internacional en investigación de sostenibilidad, se enfoca en en movilizar profesionales y equipos mediante pensamiento sistémico y comunicación efectiva, generando valor coherente y sostenible para los clientes.',
-        'Concibe la sostenibilidad como un eje transversal que fortalece la gobernanza y potencia la competitividad empresarial. Su trayectoria abarca comunicación institucional, campañas 360°, diseño de experiencias multicanal y desarrollo de estrategias de impacto que combinan innovación, marketing regenerativo y una cultura organizacional alineada con el propósito.',
-      ],
-      foto: '/team/Lourdes.jpg',
-    },
-    {
-      nombre: 'Francisco Javier Arias Vargas',
-      cargo: 'Doctor en Administración y Dirección de Empresas, experto en Cooperación Académica Internacional',
-      bio: 'Ha publicado trabajos en revistas especializadas sobre el desarrollo económico regional. Es Presidente de la Red Internacional de Investigación en Gestión del Conocimiento Empresarial.',
-      bioCompleta: [
-        'Francisco Javier Arias Vargas es Doctor en Administración y Dirección de Empresas por la Universidad Politécnica de Valencia. Ha publicado trabajos en revistas especializadas donde analiza diferentes sectores estratégicos ligados al desarrollo económico regional y su inserción en el comercio internacional; es experto en Cooperación Académica Internacional, Gestión, Mercados e Internacionalización de Empresas.',
-        'Actualmente, se encuentra registrado como Investigador en CONAHCYT (México) con el CVU 109758, es Investigador RENACYT nivel V por CONCYTEC (Perú) e Investigador Senior por MINCIENCIAS (Colombia).',
-        'Ha sido nombrado Profesor Honorífico de la UNTRM en Perú, Profesor Invitado de la Universidad Autónoma Metropolitana de México y de la Universidad Autónoma de Chiapas. Además, ha sido Profesor invitado en varias universidades de Colombia, México, España, Honduras, Chile, Bolivia, Ecuador, Paraguay y el Principado de Andorra.',
-        'Es miembro del Consejo Directivo de UNEV en Honduras, Presidente de la Red Internacional de Investigación en Gestión del Conocimiento Empresarial (RED GCE), la cual tiene presencia en todos los países de Iberoamérica y por último, pertenece al staff docente de la Facultad de Ciencias Económicas y Administrativas de la Universidad de Medellín.',
-      ],
-      foto: '/team/Francisco.jpeg',
-    },
-    {
-      nombre: 'Pablo Gámez Cersósimo',
-      cargo: 'Periodista de investigación, consultor y coach, especializado en sostenibilidad digital',
-      bio: 'Trabaja en Europa y América Latina a través de Naturallydigital.org. Su área de especialización abarca la polución, ética y bienestar digital de las sociedades.',
-      bioCompleta: [
-        'Pablo Gámez Cersósimo (Costa Rica, 1972) es periodista de investigación, consultor y coach. Su área de especialización abarca la polución y sostenibilidad digital, el comportamiento humano en línea, ética y bienestar digital de las sociedades.',
-        'A través de Naturallydigital.org (www.naturallydigital.org) en Países Bajos, trabaja en Europa y América Latina para distintas organizaciones, gobiernos, institutos y ONG.',
-        'Durante más de quince años, fue editor en jefe para los informativos de Radio Nederland Internacional dirigidos a América Latina, en Hilversum, Países Bajos. También trabajó como editor en jefe y manager de proyectos en la ONG RNW-Media. Desde 1998, contribuye regularmente con distintos medios de comunicación europeos y latinoamericanos.',
-      ],
-      foto: '/team/Pablo.jpg',
-    },
-  ];
-
-  const alianzas = [
-    {
-      nombre: 'Universidad FUNDEPOS',
-      logo: '/logos/fundepos-color.png',
-      descripcion: 'Institución académica líder en educación superior',
-      url: 'https://fundepos.ac.cr',
-      textoCompleto: [
-        'La Universidad FUNDEPOS es una institución académica visionaria comprometida con formar líderes capaces de transformar realidades y anticiparse a los desafíos globales. Reconocida por su enfoque práctico, innovador y orientado a transformar realidades. Con una trayectoria que combina rigor académico, innovación y cercanía con el sector productivo, impulsa una educación que trasciende las aulas y se convierte en conocimiento aplicado, investigación pertinente y soluciones para el desarrollo sostenible. Su compromiso con la gestión empresarial, el liderazgo responsable y la sostenibilidad la posiciona como un actor clave en la generación de conocimiento que impulsa el desarrollo del país.',
-        'Su participación en el Observatorio de Sostenibilidad es fundamental porque aporta rigor académico, credibilidad y capacidad investigativa para convertir datos en información estratégica. Con FUNDEPOS, el Observatorio fortalece su misión de producir análisis confiables, útiles y alineados con los ODS, asegurando que la sostenibilidad sea comprendida, enseñada y aplicada en las decisiones de empresas y cooperativas.',
-      ],
-    },
-    {
-      nombre: 'Tactik Global Marketing Services',
-      logo: '/logos/tactik.png',
-      descripcion: 'Servicios de marketing estratégico global',
-      url: 'https://www.tactik.co.cr/',
-      textoCompleto: [
-        'Tactik Global Marketing Services es una agencia con más de 25 años de experiencia en mercadeo, comunicación estratégica, sostenibilidad e innovación. Su enfoque integra creatividad, estrategia y datos para ayudar a organizaciones de toda América Latina a fortalecer su posicionamiento, transformar su cultura interna, diseño e implementación de experiencias de alto valor convirtiéndose en un socio confiable para quienes buscan evolucionar al ritmo de los nuevos desafíos globales.',
-        'Su incorporación al Observatorio de Sostenibilidad es clave porque aporta una visión práctica sobre cómo comunicar, activar y medir la sostenibilidad. Gracias a su experiencia en triple impacto y narrativas responsables, Tactik contribuye a que el Observatorio convierta los hallazgos en acciones estratégicas que generen valor real para las organizaciones.',
-      ],
-    },
-    {
-      nombre: 'Red GCE',
-      logo: '/logos/Red GCE.jpeg',
-      descripcion: 'Red Internacional de Investigación en Gestión del Conocimiento Empresarial',
-      url: 'https://redgce.blogspot.com/?view=magazine',
-      textoCompleto: [
-        'La Red Internacional de Investigación en Gestión del Conocimiento Empresarial (RED GCE) reúne a investigadores y expertos de más de 14 países iberoamericanos con el propósito de generar, integrar y aplicar conocimiento en favor de la innovación, la competitividad y el desarrollo sostenible. Su misión se centra en la investigación colaborativa, el impulso de metodologías avanzadas de gestión del conocimiento y la formación de alto nivel, conectando universidades, centros de investigación y actores del sector productivo.',
-        'Como plataforma de cooperación internacional, la RED GCE articula esfuerzos interinstitucionales y multidisciplinarios, enriqueciendo el estudio de temas como productividad, sostenibilidad, transformación digital y gestión estratégica. A través de comunidades de práctica y la difusión de resultados científicos, facilita la transferencia de conocimiento hacia entornos empresariales y gubernamentales, consolidándose como un espacio clave para la innovación y el aprendizaje compartido.',
-        'En este contexto, su alianza con el Observatorio de Sostenibilidad de Costa Rica adquiere relevancia estratégica. La colaboración permite desarrollar proyectos conjuntos, estudios multicentrales e indicadores basados en conocimiento, además de programas de formación especializados. Asimismo, la RED potencia la proyección internacional del Observatorio, conectándolo con instituciones y académicos de distintos países, lo que refuerza la cooperación científica iberoamericana y demuestra cómo la gestión del conocimiento puede ser motor esencial para la sostenibilidad y el desarrollo regional.',
-      ],
-    },
-    {
-      nombre: 'Florida Universitària',
-      logo: '/logos/Logo-Florida.jpg',
-      descripcion: 'Institución académica de prestigio internacional',
-      url: 'https://www.floridauniversitaria.es',
-    },
-    {
-      nombre: 'Naturally Digital',
-      logo: '/logos/Logo ND.jpeg',
-      descripcion: 'Especialistas en sostenibilidad digital',
-      url: 'https://naturallydigital.org/',
-      textoCompleto: [
-        'Naturally Digital es un referente europeo en el análisis del impacto socioambiental de la economía digital y en la creación de modelos de transformación tecnológica responsables. Desde los Países Bajos ha asesorado a gobiernos, empresas y organizaciones en la integración de prácticas digitales sostenibles, impulsando políticas públicas, diagnósticos y herramientas que conectan innovación, sostenibilidad y bienestar social.',
-        'Su incorporación al Observatorio de Sostenibilidad fortalece nuestra capacidad de comprender y anticipar los efectos de la digitalización en Costa Rica y la región. La experiencia de Naturally Digital aporta rigor técnico, visión internacional y metodologías de vanguardia que enriquecen nuestros estudios, alianzas y recomendaciones estratégicas, posicionando al Observatorio como un actor clave en la construcción de un futuro digital sostenible.',
-      ],
-    },
-  ];
+  const equipo = equipoData;
+  const alianzas = alianzasData;
 
   return (
     <Box>
@@ -650,8 +554,7 @@ const NosotrosPage: React.FC = () => {
                         transition={{ duration: 0.5 }}
                         sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}
                       >
-                        <FontAwesomeIcon
-                          icon={valor.icono}
+                        <valor.icono
                           style={{ fontSize: '40px', color: valor.color }}
                         />
                       </Box>
@@ -849,7 +752,7 @@ const NosotrosPage: React.FC = () => {
                   },
                 }}
               >
-                <CloseIcon />
+                <MdClose />
               </IconButton>
             </DialogTitle>
             <DialogContent sx={{ p: 0 }}>
@@ -1144,7 +1047,7 @@ const NosotrosPage: React.FC = () => {
                     },
                   }}
                 >
-                  <CloseIcon />
+                  <MdClose />
                 </IconButton>
               </DialogTitle>
               <DialogContent sx={{ p: 4, fontFamily: 'Montserrat, sans-serif' }}>
@@ -1177,7 +1080,7 @@ const NosotrosPage: React.FC = () => {
                       }}
                       sizes="200px"
                       quality={90}
-                    />
+                  />
                   </Box>
                 </Box>
 
