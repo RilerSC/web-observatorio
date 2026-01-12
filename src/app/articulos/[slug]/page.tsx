@@ -34,6 +34,22 @@ interface PageProps {
   }>;
 }
 
+// Genera los slugs estáticos a partir de los JSON en src/data/articulos
+export async function generateStaticParams() {
+  const articulosDir = path.join(process.cwd(), 'src/data/articulos');
+
+  if (!fs.existsSync(articulosDir)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(articulosDir)
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => ({
+      slug: file.replace(/\.json$/, ''),
+    }));
+}
+
 // Función para cargar el artículo desde el JSON
 function getArticulo(slug: string): ArticuloData | null {
   try {
