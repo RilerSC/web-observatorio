@@ -57,6 +57,14 @@
     {
       "source": "/observatorio/api/:path*",
       "destination": "/observatorio/api/:path*"
+    },
+    {
+      "source": "/observatorio/:path*/index.html",
+      "destination": "/observatorio/:path*"
+    },
+    {
+      "source": "/observatorio/index.html",
+      "destination": "/observatorio"
     }
   ]
 }
