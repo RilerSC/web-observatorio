@@ -8,7 +8,7 @@
   },
   "headers": [
     {
-      "source": "/observatorio/img/:path*",
+      "source": "/img/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/observatorio/video/:path*",
+      "source": "/video/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "source": "/observatorio/logos/:path*",
+      "source": "/logos/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "source": "/observatorio/pdf/:path*",
+      "source": "/pdf/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -44,27 +44,13 @@
       ]
     },
     {
-      "source": "/observatorio/_next/static/:path*",
+      "source": "/_next/static/:path*",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/observatorio/api/:path*",
-      "destination": "/observatorio/api/:path*"
-    },
-    {
-      "source": "/observatorio/:path*/index.html",
-      "destination": "/observatorio/:path*"
-    },
-    {
-      "source": "/observatorio/index.html",
-      "destination": "/observatorio"
     }
   ]
 }

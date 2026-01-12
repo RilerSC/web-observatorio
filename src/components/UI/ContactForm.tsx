@@ -68,10 +68,7 @@ const ContactForm: React.FC = () => {
     setSubmitStatus('idle'); // Reset status
 
     try {
-      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      const apiUrl = basePath ? `${basePath}/api/contact` : '/api/contact';
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,4 +175,3 @@ const ContactForm: React.FC = () => {
 };
 
 export default ContactForm;
-

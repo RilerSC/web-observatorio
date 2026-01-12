@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Despliegue bajo subruta fija
-  basePath: '/observatorio',
-  assetPrefix: '/observatorio',
-  env: {
-    NEXT_PUBLIC_BASE_PATH: '/observatorio',
-  },
   
   // Partial Prerendering (Next.js 16+) - DESHABILITADO TEMPORALMENTE
   // Causa hydration mismatch con páginas 'use client' que tienen estado
@@ -126,14 +120,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig
-
-
-
-
-
-
-
-
-
-
+module.exports = nextConfig;
