@@ -14,8 +14,8 @@ import articuloData from '@/data/articulos/sostenibilidad-no-es-opcion.json';
 const HomePage = () => {
   // Videos del slider principal
   const heroVideos = [
-    '/video/v2.mp4',  // 3.4MB
-    '/video/v4.mp4',  // 7.2MB
+    '/video/v2.mp4',
+    '/video/v4.mp4',
     '/video/v5.mp4',
     '/video/v6.mp4',
   ];

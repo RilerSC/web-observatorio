@@ -57,6 +57,11 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     const video = videoRefs.current[index];
     if (!video) return;
 
+    // Si el navegador descartó el buffer, recargar antes de reproducir
+    if (video.readyState < 2) {
+      video.load();
+    }
+
     const attempts = playAttemptsRef.current.get(index) || 0;
     if (attempts > 5) return; // Evitar loops infinitos
 
@@ -100,6 +105,17 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     if (media.length > 0 && isVideo(media[0])) {
       const timer = setTimeout(() => {
         loadVideo(0);
+        // Forzar reproducción inicial para evitar que quede en pausa
+        setTimeout(() => {
+          const v0 = videoRefs.current[0];
+          if (v0) {
+            v0.muted = true;
+            v0.playsInline = true;
+            v0.currentTime = 0;
+            v0.load();
+            v0.play().catch(() => {});
+          }
+        }, 150);
       }, 100);
       return () => clearTimeout(timer);
     }
@@ -118,40 +134,43 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     }
   }, [currentIndex, media, isVideo, loadVideo]);
 
-  // Reproducir video actual cuando cambia el índice o se carga
+  // Reproducir video actual cuando cambia el índice (recarga y autoplay forzado)
   useEffect(() => {
     const currentMedia = media[currentIndex];
-    if (isVideo(currentMedia)) {
-      const currentVideo = videoRefs.current[currentIndex];
-      
-      // Pausar todos los videos primero
-      videoRefs.current.forEach((video, index) => {
-        if (video && index !== currentIndex) {
-          video.pause();
-          video.currentTime = 0;
-        }
-      });
+    const currentVideo = videoRefs.current[currentIndex];
 
-      // Reproducir el video actual
-      if (currentVideo) {
-        if (loadedMedia.has(currentIndex)) {
-          // Si ya está cargado, reproducir inmediatamente
-          forcePlayVideo(currentIndex);
-        } else {
-          // Si no está cargado, cargarlo primero
-          loadVideo(currentIndex);
-        }
+    // Pausar y resetear otros videos
+    videoRefs.current.forEach((video, idx) => {
+      if (video && idx !== currentIndex) {
+        video.pause();
+        video.currentTime = 0;
       }
-    }
-  }, [currentIndex, loadedMedia, media, isVideo, loadVideo, forcePlayVideo]);
+    });
 
-  // Efecto adicional: reproducir cuando se marca como cargado
-  useEffect(() => {
-    const currentMedia = media[currentIndex];
-    if (isVideo(currentMedia) && loadedMedia.has(currentIndex)) {
-      forcePlayVideo(currentIndex);
+    if (currentVideo && isVideo(currentMedia)) {
+      currentVideo.muted = true;
+      currentVideo.playsInline = true;
+      currentVideo.currentTime = 0;
+      currentVideo.load(); // asegurar buffer fresco
+      const tryPlay = () => {
+        const p = currentVideo.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {
+            setTimeout(() => currentVideo.play().catch(() => {}), 150);
+          });
+        }
+      };
+      tryPlay();
     }
-  }, [loadedMedia, currentIndex, media, isVideo, forcePlayVideo]);
+  }, [currentIndex, media, isVideo]);
+
+  // Reproducir si se marca como cargado (respaldo)
+  useEffect(() => {
+    const currentVideo = videoRefs.current[currentIndex];
+    if (currentVideo && currentVideo.readyState >= 2) {
+      currentVideo.play().catch(() => {});
+    }
+  }, [loadedMedia, currentIndex]);
 
   // Auto-avance
   useEffect(() => {
@@ -225,9 +244,11 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '400px', md: '600px' },
+        aspectRatio: '16 / 9',
+        minHeight: { xs: '260px', md: '520px' },
+        maxHeight: '70vh',
         overflow: 'hidden',
-        backgroundColor: '#0a1623',
+        backgroundColor: '#000',
       }}
     >
       {/* Loading indicator */}
@@ -300,6 +321,9 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                     playsInline
                     preload={isCurrent ? 'auto' : 'metadata'}
                     style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
@@ -376,6 +400,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
                   height: '100%',
                   background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%)',
                   zIndex: 1,
+                  pointerEvents: 'none',
                 }}
               />
             </Box>
