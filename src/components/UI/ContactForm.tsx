@@ -68,7 +68,10 @@ const ContactForm: React.FC = () => {
     setSubmitStatus('idle'); // Reset status
 
     try {
-      const response = await fetch('/api/contact', {
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const apiUrl = basePath ? `${basePath}/api/contact` : '/api/contact';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Box, IconButton, Typography, CircularProgress } from '@mui/material';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import Image from 'next/image';
@@ -25,6 +25,18 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
   interval = 6000,
   mode = 'auto',
 }) => {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const resolvedMedia = useMemo(
+    () =>
+      media.map((src) => {
+        if (!src) return src;
+        if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) {
+          return src;
+        }
+        return `${basePath}${src}`;
+      }),
+    [media, basePath]
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedMedia, setLoadedMedia] = useState<Set<number>>(new Set());
   const [loadingMedia, setLoadingMedia] = useState<Set<number>>(new Set());
@@ -92,17 +104,17 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
   // Cargar video explícitamente
   const loadVideo = useCallback((index: number) => {
     const video = videoRefs.current[index];
-    if (video && isVideo(media[index])) {
+    if (video && isVideo(resolvedMedia[index])) {
       if (!loadedMedia.has(index) && !loadingMedia.has(index)) {
         setLoadingMedia(prev => new Set([...prev, index]));
         video.load();
       }
     }
-  }, [media, isVideo, loadedMedia, loadingMedia]);
+  }, [resolvedMedia, isVideo, loadedMedia, loadingMedia]);
 
   // Cargar el primer video al montar
   useEffect(() => {
-    if (media.length > 0 && isVideo(media[0])) {
+    if (resolvedMedia.length > 0 && isVideo(resolvedMedia[0])) {
       const timer = setTimeout(() => {
         loadVideo(0);
         // Forzar reproducción inicial para evitar que quede en pausa
@@ -123,20 +135,20 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
 
   // Precargar medios adyacentes
   useEffect(() => {
-    const nextIndex = (currentIndex + 1) % media.length;
-    const prevIndex = (currentIndex - 1 + media.length) % media.length;
+    const nextIndex = (currentIndex + 1) % resolvedMedia.length;
+    const prevIndex = (currentIndex - 1 + resolvedMedia.length) % resolvedMedia.length;
     
-    if (isVideo(media[nextIndex])) {
+    if (isVideo(resolvedMedia[nextIndex])) {
       loadVideo(nextIndex);
     }
-    if (isVideo(media[prevIndex])) {
+    if (isVideo(resolvedMedia[prevIndex])) {
       loadVideo(prevIndex);
     }
-  }, [currentIndex, media, isVideo, loadVideo]);
+  }, [currentIndex, resolvedMedia, isVideo, loadVideo]);
 
   // Reproducir video actual cuando cambia el índice (recarga y autoplay forzado)
   useEffect(() => {
-    const currentMedia = media[currentIndex];
+    const currentMedia = resolvedMedia[currentIndex];
     const currentVideo = videoRefs.current[currentIndex];
 
     // Pausar y resetear otros videos
@@ -162,7 +174,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
       };
       tryPlay();
     }
-  }, [currentIndex, media, isVideo]);
+  }, [currentIndex, resolvedMedia, isVideo]);
 
   // Reproducir si se marca como cargado (respaldo)
   useEffect(() => {
@@ -179,7 +191,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     timerRef.current = setInterval(() => {
       setIsTransitioning(true);
       setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % media.length);
+        setCurrentIndex((prev) => (prev + 1) % resolvedMedia.length);
         setAnimationKey(prev => prev + 1);
         setIsTransitioning(false);
       }, 100);
@@ -188,13 +200,13 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [autoPlay, interval, media.length]);
+  }, [autoPlay, interval, resolvedMedia.length]);
 
   const goToPrevious = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
+      setCurrentIndex((prev) => (prev - 1 + resolvedMedia.length) % resolvedMedia.length);
       setAnimationKey(prev => prev + 1);
       setIsTransitioning(false);
     }, 100);
@@ -204,7 +216,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
     if (timerRef.current) clearInterval(timerRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % media.length);
+      setCurrentIndex((prev) => (prev + 1) % resolvedMedia.length);
       setAnimationKey(prev => prev + 1);
       setIsTransitioning(false);
     }, 100);
@@ -223,8 +235,8 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
 
   const shouldRenderMedia = (index: number) => {
     return index === currentIndex || 
-           index === (currentIndex + 1) % media.length || 
-           index === (currentIndex - 1 + media.length) % media.length;
+           index === (currentIndex + 1) % resolvedMedia.length || 
+           index === (currentIndex - 1 + resolvedMedia.length) % resolvedMedia.length;
   };
 
   const getKenBurnsStyle = (index: number) => {
@@ -281,7 +293,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
 
       {/* Media Container */}
       <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-        {media.map((src, index) => {
+        {resolvedMedia.map((src, index) => {
           const shouldRender = shouldRenderMedia(index);
           const isCurrent = index === currentIndex;
           const isLoaded = loadedMedia.has(index);
@@ -474,7 +486,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
           gap: 1.5,
         }}
       >
-        {media.map((_, index) => (
+        {resolvedMedia.map((_, index) => (
           <Box
             key={index}
             onClick={() => goToSlide(index)}
@@ -515,7 +527,7 @@ const VideoSlider: React.FC<MediaSliderProps> = ({
           <CircularProgress size={8} sx={{ color: '#00bed6' }} />
         )}
         <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 500 }}>
-          {currentIndex + 1} / {media.length}
+          {currentIndex + 1} / {resolvedMedia.length}
         </Typography>
       </Box>
     </Box>
