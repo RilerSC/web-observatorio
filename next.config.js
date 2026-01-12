@@ -2,8 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   
-  // Partial Prerendering (Next.js 16+)
-  cacheComponents: true, // PPR (Partial Prerendering)
+  // Partial Prerendering (Next.js 16+) - DESHABILITADO TEMPORALMENTE
+  // Causa hydration mismatch con páginas 'use client' que tienen estado
+  // TODO: Refactorizar páginas a Server Components para habilitar PPR
+  cacheComponents: false, // PPR deshabilitado
   
   // External packages para server components
   serverExternalPackages: ['nodemailer'],

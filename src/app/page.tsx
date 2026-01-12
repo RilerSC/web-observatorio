@@ -8,6 +8,8 @@ import ImpactSection from '@/components/UI/ImpactSection';
 import AnimatedCard from '@/components/UI/AnimatedCard';
 import AnimatedBox from '@/components/UI/AnimatedBox';
 import LinkButton from '@/components/UI/LinkButton';
+import FeaturedArticle from '@/components/Home/FeaturedArticle';
+import articuloData from '@/data/articulos/sostenibilidad-no-es-opcion.json';
 
 const HomePage = () => {
   // Videos del slider principal
@@ -379,6 +381,18 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
+
+      {/* Artículo Destacado - Acceso Orgánico */}
+      <FeaturedArticle
+        titulo={articuloData.titulo}
+        resumen={articuloData.resumen}
+        categoria={articuloData.categoria}
+        autorNombre={articuloData.autor.nombre}
+        autorCargo={articuloData.autor.cargo}
+        autorFoto={articuloData.autor.foto}
+        slug={articuloData.slug}
+        masterInfo={articuloData.master_info}
+      />
     </Box>
   );
 };

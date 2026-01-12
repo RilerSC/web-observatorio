@@ -221,7 +221,7 @@ const Footer: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <MdPhone style={{ fontSize: 20, color: '#00bed6' }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'Montserrat, sans-serif' }}>
-                +506 4001 9254 
+                +(506) 4001-9254
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>

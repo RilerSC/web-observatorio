@@ -24,17 +24,10 @@ import Link from 'next/link';
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || typeof window === 'undefined') return;
-
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
       setScrolled(isScrolled);
@@ -42,7 +35,7 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [mounted]);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -102,9 +95,6 @@ const Header: React.FC = () => {
                   priority
                   style={{
                     objectFit: 'contain',
-                    width: mounted && scrolled ? '150px' : '180px',
-                    height: 'auto',
-                    transition: 'all 0.3s ease-in-out',
                   }}
                 />
               </Link>
