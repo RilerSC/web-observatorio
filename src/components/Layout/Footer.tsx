@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
           sx={{
             position: 'absolute',
             top: 24,
-            right: 0,
+            right: { md: 24, lg: 40 },
             display: { xs: 'none', md: 'block' },
             zIndex: 1,
           }}
@@ -74,13 +74,13 @@ const Footer: React.FC = () => {
         <Grid container spacing={4}>
           {/* Logo y Descripción */}
           <Grid item xs={12} md={4}>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ mb: 2, maxWidth: { xs: '200px', md: '250px' }, pr: { md: 3 } }}>
               <Image
                 src="/logos/LOGO_COLOR.svg"
                 alt="Logo Observatorio de Sostenibilidad"
-                width={50}
-                height={17}
-                style={{ objectFit: 'contain', width: 800, height: 280 }}
+                width={200}
+                height={70}
+                style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
               />
             </Box>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2, fontFamily: 'Montserrat, sans-serif', lineHeight: 1.7 }}>
@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
 
           {/* Enlaces Rápidos */}
           <Grid item xs={12} sm={6} md={2}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif' }}>
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif', pr: { md: 2 } }}>
               Enlaces Rápidos
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -208,7 +208,7 @@ const Footer: React.FC = () => {
 
           {/* Contacto */}
           <Grid item xs={12} md={2}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif' }}>
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Montserrat, sans-serif', pr: { md: 8, lg: 10 } }}>
               Contacto
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>

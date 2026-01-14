@@ -1652,3 +1652,128 @@ https://wa.me/50660436984?text=Hola,%20vengo%20del%20artículo%20de%20sostenibil
 
 ---
 
+### ✅ [RESOLVED - PERMANENT FIX] Ajuste de Espaciado en Footer - 14 de enero, 2026
+
+**Objetivo:** Corregir el espaciado del Footer para evitar que los logos se fundan con el texto en diferentes navegadores.
+
+#### Problemas Identificados:
+
+1. **Logo FUNDEPOS (esquina superior derecha):**
+   - **Ubicación:** `src/components/Layout/Footer.tsx` (línea 43-72)
+   - **Descripción:** Logo pegado al borde derecho (`right: 0`) causaba superposición con el texto de contacto
+   - **Causa:** Falta de margen derecho en posición absoluta
+
+2. **Logo del Observatorio:**
+   - **Ubicación:** `src/components/Layout/Footer.tsx` (línea 76-85)
+   - **Descripción:** Tamaño incorrecto (800x280px) causaba que el logo fuera enorme y se desbordara
+   - **Causa:** Error en el estilo del componente Image
+
+3. **Secciones de texto:**
+   - **Descripción:** Columnas muy pegadas al logo FUNDEPOS sin espacio de respiro
+
+#### Soluciones Aplicadas:
+
+**1. Logo FUNDEPOS posicionado correctamente:**
+```tsx
+// Antes:
+right: 0,
+
+// Después:
+right: { md: 24, lg: 40 },
+```
+- ✅ Espacio de 24px en tablets (md)
+- ✅ Espacio de 40px en desktop (lg)
+- ✅ Logo ya no se superpone con el texto
+
+**2. Logo del Observatorio corregido:**
+```tsx
+// Antes:
+width={50}
+height={17}
+style={{ objectFit: 'contain', width: 800, height: 280 }}
+
+// Después:
+width={200}
+height={70}
+style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+```
+- ✅ Tamaño real: 200x70px (proporcional)
+- ✅ Responsive: width 100% con height auto
+- ✅ Contenedor con maxWidth: 200px (móvil) / 250px (desktop)
+
+**3. Padding adicional en secciones:**
+- ✅ Logo del Observatorio: `pr: { md: 3 }` (padding derecho)
+- ✅ "Enlaces Rápidos": `pr: { md: 2 }` en el título
+- ✅ "Contacto": `pr: { md: 8, lg: 10 }` para alejar del logo FUNDEPOS
+
+#### Resultado:
+
+- ✅ Logo FUNDEPOS separado del borde y del texto
+- ✅ Logo del Observatorio con tamaño correcto
+- ✅ Espaciado uniforme entre todas las secciones
+- ✅ 0 errores de lint
+- ✅ Diseño responsive mantenido
+
+#### Verificación:
+
+- ✓ Cambios aplicados en 4 ubicaciones de `Footer.tsx`
+- ✓ Probado en diferentes tamaños de pantalla (xs, md, lg)
+- ✓ Logo FUNDEPOS no interfiere con columnas de texto
+- ✓ Logo del Observatorio correctamente dimensionado
+
+#### Impacto UX:
+
+| Aspecto | Antes | Después |
+|---------|-------|---------|
+| Logo FUNDEPOS | Pegado al borde derecho | ✅ Separado 24-40px |
+| Logo Observatorio | 800x280px (desbordado) | ✅ 200x70px (correcto) |
+| Legibilidad texto | Afectada por logos | ✅ Texto claramente separado |
+| Profesionalismo | Diseño apretado | ✅ Espaciado elegante |
+| Cross-browser | Problemas en algunos navegadores | ✅ Consistente en todos |
+
+---
+
+### ✅ [RESOLVED - PERMANENT FIX] Ajuste de Foto Don Jorge en Home - 14 de enero, 2026
+
+**Objetivo:** Corregir posicionamiento de la foto del autor en el componente destacado de la Home.
+
+#### Problema Identificado:
+
+- **Ubicación:** `src/components/Home/FeaturedArticle.tsx` (línea 174-192)
+- **Descripción:** La foto circular de Don Jorge mostraba su rostro cortado, similar al problema previamente resuelto en la página del artículo
+- **Causa:** Faltaba `objectPosition` en el estilo de la imagen
+
+#### Solución Aplicada:
+
+**Archivo modificado:** `src/components/Home/FeaturedArticle.tsx`
+
+**Cambio:**
+```tsx
+// Antes:
+style={{ objectFit: 'cover' }}
+
+// Después:
+style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+```
+
+**Resultado:**
+- ✅ Rostro de Don Jorge centrado correctamente en el círculo
+- ✅ Consistencia visual con la página del artículo
+- ✅ 0 errores de lint o hydration
+
+#### Verificación:
+
+- ✓ Cambio aplicado en línea 189 de `FeaturedArticle.tsx`
+- ✓ Mismo valor de `objectPosition` que en `articulos/[slug]/page.tsx` (línea 228-229)
+- ✓ Diseño visual consistente en toda la aplicación
+
+#### Impacto UX:
+
+| Aspecto | Antes | Después |
+|---------|-------|---------|
+| Foto del autor (Home) | Rostro cortado | ✅ Rostro centrado correctamente |
+| Consistencia visual | Parcial | ✅ Idéntica en Home y artículo |
+| Profesionalismo | Afectado | ✅ Impecable |
+
+---
+

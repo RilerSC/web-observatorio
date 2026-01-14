@@ -186,7 +186,7 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({
                       src={autorFoto}
                       alt={autorNombre}
                       fill
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
                       sizes="60px"
                     />
                   </Box>
