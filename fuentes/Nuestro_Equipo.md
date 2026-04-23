@@ -16,7 +16,7 @@ Actualmente, se encuentra registrado como Investigador en CONAHCYT (México) con
 
 Ha sido nombrado Profesor Honorífico de la UNTRM en Perú, Profesor Invitado de la Universidad Autónoma Metropolitana de México y de la Universidad Autónoma de Chiapas. Además, ha sido Profesor invitado en varias universidades de Colombia, México, España, Honduras, Chile, Bolivia, Ecuador, Paraguay y el Principado de Andorra.
 
-Es miembro del Consejo Directivo de UNEV en Honduras, Presidente de la Red Internacional de Investigación en Gestión del Conocimiento Empresarial (RED GCE), la cual tiene presencia en todos los países de Iberoamérica y por último, pertenece al staff docente de la Facultad  de Ciencias Económicas y Administrativas de la Universidad de Medellín.
+Es miembro del Consejo Directivo de UNEV en Honduras, Presidente de la Red Internacional de Investigación en Gestión del Conocimiento Empresarial (RED GCE), la cual tiene presencia en todos los países de Iberoamérica y por último, pertenece al staff docente de la Facultad  de Ciencias Económicas y Administrativas de la Universitaria de Envigado.
 
 
 Lourdes Gómez es Máster en Sostenibilidad e Innovación, con una amplia carrera en mercadeo estratégico, comunicación corporativa y sostenibilidad. Como cofundadora de Tactik Global Marketing Services, ha liderado proyectos regionales que integran estrategia, creatividad y visión con propósito, impulsando a organizaciones a evolucionar hacia modelos de crecimiento más competitivos, éticos y orientados a resultados.
