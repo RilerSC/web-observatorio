@@ -1,3 +1,7 @@
+> ⚠️ **Material de referencia.** La fuente de verdad vive en `src/data/`. Editar este archivo NO modifica la Web. Ver `fuentes/README.md`.
+
+---
+
 Observatorio de Sostenibilidad 
 El Observatorio de Sostenibilidad surge como una iniciativa académica, empresarial y colaborativa orientada a monitorear, analizar y promover el impacto ambiental, social, económico, humano y digital de las organizaciones en Costa Rica y la región, apoyándose en la ciencia de datos y la inteligencia artificial.
 Nuestro propósito es ofrecer información confiable y herramientas de análisis que impulsen la mejora continua, la innovación sostenible y la toma de decisiones estratégicas basadas en evidencia.

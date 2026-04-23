@@ -1,3 +1,7 @@
+> ⚠️ **Material de referencia.** La fuente de verdad vive en `src/data/`. Editar este archivo NO modifica la Web. Ver `fuentes/README.md`.
+
+---
+
 Por qué la sostenibilidad empresarial ya no es una opción
 
 Durante más de dos siglos, el modelo económico lineal basado en producir, consumir y desechar fue el motor del desarrollo industrial y comercial. Sin embargo, en el siglo XXI este paradigma muestra claros signos de agotamiento. El cambio climático, la pérdida de biodiversidad, la escasez de recursos naturales y la creciente presión social hacia las empresas han transformado la sostenibilidad de un valor agregado en una condición indispensable para la supervivencia y competitividad. 

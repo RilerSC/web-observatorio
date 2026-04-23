@@ -1,3 +1,7 @@
+> ⚠️ **Material de referencia.** La fuente de verdad vive en `src/data/`. Editar este archivo NO modifica la Web. Ver `fuentes/README.md`.
+
+---
+
 
 
 

@@ -1,3 +1,7 @@
+> ⚠️ **Material de referencia.** La fuente de verdad vive en `src/data/`. Editar este archivo NO modifica la Web. Ver `fuentes/README.md`.
+
+---
+
 La Universidad FUNDEPOS es una institución académica visionaria comprometida con formar líderes capaces de transformar realidades y anticiparse a los desafíos globales. Reconocida por su enfoque práctico, innovador y orientado a transformar realidades. Con una trayectoria que combina rigor académico, innovación y cercanía con el sector productivo, impulsa una educación que trasciende las aulas y se convierte en conocimiento aplicado, investigación pertinente y soluciones para el desarrollo sostenible. Su compromiso con la gestión empresarial, el liderazgo responsable y la sostenibilidad la posiciona como un actor clave en la generación de conocimiento que impulsa el desarrollo del país.
 Su participación en el Observatorio de Sostenibilidad es fundamental porque aporta rigor académico, credibilidad y capacidad investigativa para convertir datos en información estratégica. Con FUNDEPOS, el Observatorio fortalece su misión de producir análisis confiables, útiles y alineados con los ODS, asegurando que la sostenibilidad sea comprendida, enseñada y aplicada en las decisiones de empresas y cooperativas.
 
